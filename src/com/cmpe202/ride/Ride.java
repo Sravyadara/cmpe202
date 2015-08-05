@@ -9,8 +9,9 @@ public abstract class Ride {
 
 	protected Payment p;
 	private Request request;
-	private RideStateInterface rideState;
-	private Payment payment;
+    private Payment payment;
+    private RideStateInterface rideState;
+	
 	
 	//  do we need to have a constructor here for Ride ?
 	
@@ -37,14 +38,23 @@ public abstract class Ride {
 		// It has to receive payment object.
 		// Call paymnetObject.pay();
 	}
+	
+	/*public RideStateInterface getRideState() {
+		return rideState;
+	}
+	public void setRideState(RideStateInterface rideState) {
+		this.rideState = rideState;
+	}
 	public void initiateRide(){
-		
+		this.rideState.initiateRide();
 	}
 	public void RideInTransit(){
+		this.rideState.RideInTransit();
 		
 	}
 	public void ConcludeRide(){
+		this.rideState.concludeRide();
 		
-	}
+	}*/
 	
 }
