@@ -3,9 +3,10 @@ package com.cmpe202.payment;
 public class Cash extends Payment{
 
 	@Override
-	public String pay() {
+	public String pay(int amount, String details) {
 		// TODO Auto-generated method stub
-		return null;
+		return "Paying through Cash Mode.... " + notifyCustomer();
+		
 	}
 
 	@Override
@@ -19,5 +20,13 @@ public class Cash extends Payment{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public String notifyCustomer() {
+		notifyDispatcher();
+		return "Payment accepted. Hope you enjoyed our service. Have a good one.";
+	}
 
+	public String notifyDispatcher() {
+		return "Notifying Dispatcher on Successfull Payment"; 
+	}
 }

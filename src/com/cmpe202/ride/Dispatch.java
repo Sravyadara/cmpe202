@@ -17,8 +17,17 @@ public class Dispatch extends Ride {
 		
 	}
 	@Override
-	public void pay() {
+	public void pay(int amount) {
 		// TODO Auto-generated method stub
+		// Display payment options menu here to customer. 
+		// Depending up on User selection , create that type of payment object using switch case and send it via payBycalls
+				// TODO Auto-generated method stub
+				// if paymentOption == "creditCard", call payByCC()
+				// if paymentOption == "debitCard", call payByDC()
+				// if paymentOption == "cash", call paywithPaypal()
+				// if paymentOption == "coupon", call redeemCoupon()
+		
+		// Please not that all payByCalls will take different arguments like card details + AMOUNT to cross check against DB.
 		
 	}
 	

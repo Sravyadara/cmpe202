@@ -3,7 +3,7 @@ package com.cmpe202.payment;
 public class RegularBill extends Payment{
 
 	@Override
-	public String pay() {
+	public String pay(int amount, String details) {
 		// TODO Auto-generated method stub
 		return null;
 	}
