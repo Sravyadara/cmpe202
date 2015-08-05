@@ -9,8 +9,9 @@ public abstract class Ride {
 
 	protected Payment p;
 	private Request request;
-	private RideStateInterface rideState;
-	private Payment payment;
+    private Payment payment;
+    private RideStateInterface rideState;
+	
 	
 	public abstract void pay();
 	
@@ -29,14 +30,23 @@ public abstract class Ride {
 	protected void paywithPaypal(int amount, int noOfDays, String paypalAccountId){
 		
 	}
+	
+	/*public RideStateInterface getRideState() {
+		return rideState;
+	}
+	public void setRideState(RideStateInterface rideState) {
+		this.rideState = rideState;
+	}
 	public void initiateRide(){
-		
+		this.rideState.initiateRide();
 	}
 	public void RideInTransit(){
+		this.rideState.RideInTransit();
 		
 	}
 	public void ConcludeRide(){
+		this.rideState.concludeRide();
 		
-	}
+	}*/
 	
 }

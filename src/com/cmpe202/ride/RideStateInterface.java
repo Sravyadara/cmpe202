@@ -1,10 +1,12 @@
 package com.cmpe202.ride;
 
-public interface RideStateInterface {
+import java.util.Date;
 
+public interface RideStateInterface {
+	
 	public void initiateRide();
-	public void RideInTransit();
-	public void concludeRide();
+	public int RideInTransit();
+	public int concludeRide();
 	
 	
 }
