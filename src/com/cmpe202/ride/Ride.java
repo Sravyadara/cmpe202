@@ -12,8 +12,6 @@ public abstract class Ride {
     private Payment payment;
     private RideStateInterface rideState;
 	
-<<<<<<< HEAD
-	
 	//  do we need to have a constructor here for Ride ?
 	
 	public abstract void pay(int amount);
