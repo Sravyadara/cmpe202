@@ -29,33 +29,39 @@ public abstract class Dispatch {
 	
 	public abstract void pay(int amount);
 	
-	public abstract long calculateDistance();
+	public abstract long calculateAmount();
 	
-	protected void payByCC(int amount, int noOfDays, int creditCardNumber, int CVV , String NameOnCard, String expirydate){
+	protected void payByCC(Payment creditCard, int amount, int creditCardNumber, int CVV , String NameOnCard, String expirydate){
 		// It has to receive payment object. Check constructor above.
 		// Call paymnetObject.pay();
+		creditCard.pay(amount, "");
 		
 		
+		
 	}
-	protected void payByDC(int amount, int noOfDays, int debitCardNumber, int CVV , String NameOnCard, String expirydate){
+	protected void payByDC(Payment debitCard, int amount, int debitCardNumber, int CVV , String NameOnCard, String expirydate){
 		// It has to receive payment object.
 		// Call paymnetObject.pay();
+		debitCard.pay(amount, "");
 	}
-	protected void redeemCoupon(int amount, int noOfDays, int couponNo){
+	protected void redeemCoupon(Payment coupon, int amount, int couponNo){
 		// It has to receive payment object.
 		// Call paymnetObject.pay();
+		coupon.pay(amount, "");
 	}
-	protected void payByCash(int amount, int noOfDays){
+	protected void payByCash(Payment cash, int amount){
 		// It has to receive payment object.
 		// Call paymnetObject.pay();
+		cash.pay(amount, "");
 	}
-	protected void paywithPaypal(int amount, int noOfDays, String paypalAccountId){
+	protected void paywithPaypal(Payment paypal, int amount, String paypalAccountId){
 		// It has to receive payment object.
 		// Call paymnetObject.pay();
+		paypal.pay(amount, "");
 	}
 	
-	protected void payByPass(int amount, int noOfDays, String passId) {
-		
+	protected void payByPass(Payment pass, int amount, String passId) {
+		pass.pay(amount, "");
 	}
 	
 	public int getStartTime() {

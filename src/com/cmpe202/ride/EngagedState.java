@@ -5,12 +5,12 @@ import java.util.Date;
 
 public class EngagedState implements RideStateInterface{
 	
-	private  Dispatch rideStateContext;
+	private  Dispatch dispatchStateContext;
 	
 
 	
 	public EngagedState(Dispatch d){
-		rideStateContext = d;
+		dispatchStateContext = d;
 	}
 
 	@Override
@@ -27,7 +27,7 @@ public class EngagedState implements RideStateInterface{
 		
 		Calendar cal = Calendar.getInstance();
 	   int sTime = (int) cal.getTimeInMillis();
-        rideStateContext.setStartTime(sTime);
+        dispatchStateContext.setStartTime(sTime);
 		return sTime;
        
 	}	
