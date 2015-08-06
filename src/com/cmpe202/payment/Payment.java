@@ -2,7 +2,7 @@ package com.cmpe202.payment;
 
 public abstract class Payment {
 
-	abstract public String pay();
+	abstract public String pay(int amount, String details);
 	
 	public void calculateBill(){
 		if (isPeakHour()){

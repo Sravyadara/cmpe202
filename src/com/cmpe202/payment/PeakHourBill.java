@@ -7,7 +7,7 @@ public class PeakHourBill extends Payment{
 	}
 
 	@Override
-	public String pay() {
+	public String pay(int amount, String details) {
 		// TODO Auto-generated method stub
 		return null;
 	}
