@@ -113,7 +113,7 @@ public abstract class Dispatch {
 	public void ConcludeRide(){
 		this.rideState.concludeRide();
 		
-	}
+	}	
 	
 	public long calcTimeTaken(){
 		//timeTaken in minutes
