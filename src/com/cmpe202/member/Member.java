@@ -2,20 +2,27 @@ package com.cmpe202.member;
 
 public class Member {
 	
-	protected int memberid;
+	protected String memberid;
+	protected String password;
 	protected String role;
 	protected String address;
 	protected String paymentDetails;
 	protected String licenseDetails;
-	protected int contact;
+	protected String contact;
 	protected String memberName;
 	
 	
-	public int getMemberid() {
+	public String getMemberid() {
 		return memberid;
 	}
-	public void setMemberid(int memberid) {
+	public void setMemberid(String memberid) {
 		this.memberid = memberid;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	public String getRole() {
 		return role;
@@ -41,10 +48,10 @@ public class Member {
 	public void setLicenseDetails(String licenseDetails) {
 		this.licenseDetails = licenseDetails;
 	}
-	public int getContact() {
+	public String getContact() {
 		return contact;
 	}
-	public void setContact(int contact) {
+	public void setContact(String contact) {
 		this.contact = contact;
 	}
 	public String getMemberName() {
