@@ -1,8 +1,10 @@
 package com.cmpe202.payment;
 
+import java.util.HashMap;
+
 public abstract class Payment {
 
-	abstract public String pay(int amount, String details);
+	abstract public String pay(int amount, HashMap<String, String> details);
 	
 	public void calculateBill(){
 		if (isPeakHour()){

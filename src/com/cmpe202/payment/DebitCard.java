@@ -1,9 +1,11 @@
 package com.cmpe202.payment;
 
+import java.util.HashMap;
+
 public class DebitCard extends Payment{
 
 	@Override
-	public String pay(int amount, String details) {
+	public String pay(int amount, HashMap<String, String> details) {
 		String paymentMessage = "";
 		System.out.println("Paying through Debit Card");
 		if(verifyCard()){
