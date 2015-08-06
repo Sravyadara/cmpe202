@@ -12,8 +12,10 @@ public abstract class Ride {
     private Payment payment;
     private RideStateInterface rideState;
 	
-	
+    
 	public abstract void pay();
+	
+	public abstract long calculateDistance();
 	
 	protected void payByCC(int amount, int noOfDays, int creditCardNumber, int CVV , String NameOnCard, Date expirydate){
 		
@@ -31,22 +33,5 @@ public abstract class Ride {
 		
 	}
 	
-	/*public RideStateInterface getRideState() {
-		return rideState;
-	}
-	public void setRideState(RideStateInterface rideState) {
-		this.rideState = rideState;
-	}
-	public void initiateRide(){
-		this.rideState.initiateRide();
-	}
-	public void RideInTransit(){
-		this.rideState.RideInTransit();
-		
-	}
-	public void ConcludeRide(){
-		this.rideState.concludeRide();
-		
-	}*/
 	
 }
