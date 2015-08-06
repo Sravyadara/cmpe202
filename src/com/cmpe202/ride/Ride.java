@@ -26,5 +26,4 @@ public class Ride extends Dispatch {
 	}	
 	
 	
-
 }

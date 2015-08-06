@@ -10,17 +10,20 @@ public class InitiateRequest implements RequestStateInterface{
 
 	public String receiveRequest() {
 		// TODO Auto-generated method stub
-		return null;
+		request.setRequestState(new ProcessRequest(request));
+		return "Received a request";
 	}
 
-	public String processRequest() {
+	public String processRequest(String requestType) {
 		// TODO Auto-generated method stub
-		return null;
+		return "Must receive a request first";
 	}
 
 	public String cancelRequest() {
 		// TODO Auto-generated method stub
-		return null;
+		return "Must receive a request first";
 	}
+
+
 
 }

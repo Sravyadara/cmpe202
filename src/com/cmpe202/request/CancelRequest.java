@@ -9,15 +9,16 @@ public class CancelRequest implements RequestStateInterface{
 	}
 
 	public String receiveRequest() {
-		return null;
+		return "The request is cancelled";
 	}
 
-	public String processRequest() {
-		return null;
+	public String processRequest(String requestType) {
+		return "The request is cancelled";
 	}
 
 	public String cancelRequest() {
-		return null;
+		request.setRequestState(new InitiateRequest(request));
+		return "The request has been cancelled";
 	}
 
 }
