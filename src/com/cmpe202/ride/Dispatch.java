@@ -1,14 +1,63 @@
 package com.cmpe202.ride;
 
-import com.cmpe202.member.Member;
+import java.util.Date;
 
-public class Dispatch extends Ride {
-	
-	private DispatchStrategyInterface ds;
-	private RideStateInterface rideState;
+import com.cmpe202.member.Member;
+import com.cmpe202.payment.Payment;
+import com.cmpe202.request.Request;
+
+public abstract class Dispatch {
+
+	protected Payment p;
+	private Request request;
+    private Payment payment;
+    private RideStateInterface rideState;
+    
+    private DispatchStrategyInterface ds;
 	private int startTime;
 	private int endTime;
-
+	
+	//  do we need to have a constructor here for Ride ?
+	
+	public Dispatch(){
+    	rideState = new WaitingState(this);
+    }
+	
+	/*public Dispatch(Payment paymentVariable) {
+		this.p = paymentVariable;
+	}*/
+	
+	public abstract void pay(int amount);
+	
+	public abstract long calculateDistance();
+	
+	protected void payByCC(int amount, int noOfDays, int creditCardNumber, int CVV , String NameOnCard, String expirydate){
+		// It has to receive payment object. Check constructor above.
+		// Call paymnetObject.pay();
+		
+		
+	}
+	protected void payByDC(int amount, int noOfDays, int debitCardNumber, int CVV , String NameOnCard, String expirydate){
+		// It has to receive payment object.
+		// Call paymnetObject.pay();
+	}
+	protected void redeemCoupon(int amount, int noOfDays, int couponNo){
+		// It has to receive payment object.
+		// Call paymnetObject.pay();
+	}
+	protected void payByCash(int amount, int noOfDays){
+		// It has to receive payment object.
+		// Call paymnetObject.pay();
+	}
+	protected void paywithPaypal(int amount, int noOfDays, String paypalAccountId){
+		// It has to receive payment object.
+		// Call paymnetObject.pay();
+	}
+	
+	protected void payByPass(int amount, int noOfDays, String passId) {
+		
+	}
+	
 	public int getStartTime() {
 		return startTime;
 	}
@@ -25,12 +74,6 @@ public class Dispatch extends Ride {
 		this.endTime = endTime;
 	}
 	
-	 
-		
-    public Dispatch(){
-    	rideState = new WaitingState(this);
-    }
-	 
 	public void notifyDriver(){
 		
 	}
@@ -39,20 +82,6 @@ public class Dispatch extends Ride {
 		return ds.searchDriver("taxi");
 	}
 	public void notifyCustomer(){
-		
-	}
-	@Override
-	public void pay(int amount) {
-		// TODO Auto-generated method stub
-		// Display payment options menu here to customer. 
-		// Depending up on User selection , create that type of payment object using switch case and send it via payBycalls
-				// TODO Auto-generated method stub
-				// if paymentOption == "creditCard", call payByCC()
-				// if paymentOption == "debitCard", call payByDC()
-				// if paymentOption == "cash", call paywithPaypal()
-				// if paymentOption == "coupon", call redeemCoupon()
-		
-		// Please not that all payByCalls will take different arguments like card details + AMOUNT to cross check against DB.
 		
 	}
 	
@@ -92,16 +121,5 @@ public class Dispatch extends Ride {
 		return timeTaken;
 		
 	}
-	
-	
-	public long calculateDistance(){
 		
-		long distanceTravelled = calcTimeTaken();
-		return distanceTravelled;
-	
-		
-	}
-
-	
-
 }
