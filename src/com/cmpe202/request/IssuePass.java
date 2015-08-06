@@ -29,5 +29,9 @@ public abstract class IssuePass {
 	protected void paywithPaypal(int amount, int noOfDays, String paypalAccountId){
 		
 	}
+	public static void main(String[] args)
+	{
+		System.out.println("*******************PASS***********************");
+	}
 
 }
