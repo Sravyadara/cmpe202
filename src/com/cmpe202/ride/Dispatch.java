@@ -92,5 +92,14 @@ public class Dispatch extends Ride {
 		return timeTaken;
 		
 	}
+	
+	
+	public long calculateDistance(){
+		
+		long distanceTravelled = calcTimeTaken();
+		return distanceTravelled;
+	
+		
+	}
 
 }

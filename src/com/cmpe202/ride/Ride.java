@@ -12,10 +12,13 @@ public abstract class Ride {
     private Payment payment;
     private RideStateInterface rideState;
 	
+<<<<<<< HEAD
 	
 	//  do we need to have a constructor here for Ride ?
 	
 	public abstract void pay(int amount);
+	
+	public abstract long calculateDistance();
 	
 	protected void payByCC(int amount, int noOfDays, int creditCardNumber, int CVV , String NameOnCard, Date expirydate){
 		// It has to receive payment object. Check constructor above.
@@ -39,22 +42,5 @@ public abstract class Ride {
 		// Call paymnetObject.pay();
 	}
 	
-	/*public RideStateInterface getRideState() {
-		return rideState;
-	}
-	public void setRideState(RideStateInterface rideState) {
-		this.rideState = rideState;
-	}
-	public void initiateRide(){
-		this.rideState.initiateRide();
-	}
-	public void RideInTransit(){
-		this.rideState.RideInTransit();
-		
-	}
-	public void ConcludeRide(){
-		this.rideState.concludeRide();
-		
-	}*/
 	
 }
