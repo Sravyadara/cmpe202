@@ -1,9 +1,11 @@
 package com.cmpe202.payment;
 
+import java.util.HashMap;
+
 public class CreditCard extends Payment{
 
 	@Override
-	public String pay(int amount, String details) {
+	public String pay(int amount, HashMap<String, String> details) {
 		String paymentMessage = "";
 		System.out.println("Paying through Credit Card");
 		if(verifyCard()){
@@ -24,6 +26,10 @@ public class CreditCard extends Payment{
 		}
 		// TODO Auto-generated method stub
 		return paymentMessage;
+	}
+	
+	public String pay(){
+		return null;
 	}
 	
 	public boolean fwdToPaymentGateway() {

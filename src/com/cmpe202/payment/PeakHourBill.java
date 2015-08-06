@@ -1,5 +1,7 @@
 package com.cmpe202.payment;
 
+import java.util.HashMap;
+
 public class PeakHourBill extends Payment{
 	
 	public boolean IsPeakHour(){
@@ -7,7 +9,7 @@ public class PeakHourBill extends Payment{
 	}
 
 	@Override
-	public String pay(int amount, String details) {
+	public String pay(int amount, HashMap<String, String> details) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -1,9 +1,11 @@
 package com.cmpe202.payment;
 
+import java.util.HashMap;
+
 public class Coupons extends Payment{
 
 	@Override
-	public String pay(int amount, String details) {
+	public String pay(int amount, HashMap<String, String> details) {
 		System.out.println("Please hold on for a second, applying coupons..");		
 		String paymentMessage = "";
 		if(verifyCoupon()) {

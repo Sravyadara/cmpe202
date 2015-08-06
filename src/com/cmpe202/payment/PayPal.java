@@ -1,9 +1,11 @@
 package com.cmpe202.payment;
 
+import java.util.HashMap;
+
 public class PayPal extends Payment{
 
 	@Override
-	public String pay(int amount, String details) {
+	public String pay(int amount, HashMap<String, String> details) {
 		String paymentMessage = "";
 		System.out.println("Paying through Paypal Account");
 		if(verifyAccount()){
