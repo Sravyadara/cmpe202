@@ -14,8 +14,8 @@ public abstract class Dispatch {
     private RideStateInterface rideState;
     
     private DispatchStrategyInterface ds;
-	private int startTime;
-	private int endTime;
+	//private int startTime;
+	//private int endTime;
 	
 	//  do we need to have a constructor here for Ride ?
 	
@@ -64,7 +64,7 @@ public abstract class Dispatch {
 		pass.pay(amount, "");
 	}
 	
-	public int getStartTime() {
+	/*public int getStartTime() {
 		return startTime;
 	}
 
@@ -78,7 +78,7 @@ public abstract class Dispatch {
 
 	public void setEndTime(int endTime) {
 		this.endTime = endTime;
-	}
+	}*/
 	
 	public void notifyDriver(){
 		

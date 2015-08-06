@@ -1,11 +1,25 @@
 package com.cmpe202.ride;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Calendar;
 import java.util.Date;
+
+import com.cmpe202.member.Member;
+import com.cmpe202.request.ConnectionFactory;
+import com.cmpe202.request.DbUtil;
+import com.cmpe202.request.RideDAO;
+
+
 
 public class EngagedState implements RideStateInterface{
 	
 	private  Dispatch dispatchStateContext;
+	private Connection connection;
+	private Statement statement;
+	private int sTime;
 	
 
 	
@@ -26,8 +40,17 @@ public class EngagedState implements RideStateInterface{
 		// TODO Auto-generated method stub
 		
 		Calendar cal = Calendar.getInstance();
-	   int sTime = (int) cal.getTimeInMillis();
-        dispatchStateContext.setStartTime(sTime);
+	     sTime = (int) cal.getTimeInMillis();
+       // dispatchStateContext.setStartTime(sTime);
+        RideDAO rideDAO = new RideDAO();
+        try {
+			rideDAO.updateStartTime(sTime, 1);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        dispatchStateContext.setRideState(new ReleasedState(dispatchStateContext));
 		return sTime;
        
 	}	
@@ -41,5 +64,7 @@ public class EngagedState implements RideStateInterface{
 		return 0;
 		
 	}
+	
+	
 	
 }

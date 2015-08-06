@@ -1,7 +1,10 @@
 package com.cmpe202.ride;
 
+import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
+
+import com.cmpe202.request.RideDAO;
 
 
 
@@ -34,7 +37,22 @@ public class ReleasedState implements RideStateInterface{
 		// TODO Auto-generated method stub
 		Calendar cal = Calendar.getInstance();
 		 int eTime = (int) cal.getTimeInMillis();
-		 rideStateContext.setEndTime(eTime);
+		 RideDAO rideDAO = new RideDAO();
+		 try {
+			rideDAO.updateEndTime(eTime, 1);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 
+		 try {
+			rideDAO.updateRideStatus(rideStateContext, 1);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 
+	//	 rideStateContext.setEndTime(eTime);
 		return eTime;
         
 		
