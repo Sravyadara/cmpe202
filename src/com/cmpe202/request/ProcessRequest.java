@@ -10,7 +10,7 @@ public class ProcessRequest implements RequestStateInterface{
 		request = r;
 	}
 
-	public String receiveRequest() {
+	public String receiveRequest(String memberId,String requestType) {
 		// TODO Auto-generated method stub
 		return "Already received a request";
 	}
@@ -24,7 +24,7 @@ public class ProcessRequest implements RequestStateInterface{
 			
 			request.setRequestState(new InitiateRequest(request));
 			String[] arguments = new String[] {"sravya@gmail.com"};
-  	        Ride.main(arguments);
+  	       // Ride.main(arguments);
   		
 		return "Redirected to the requested page";	
 		
