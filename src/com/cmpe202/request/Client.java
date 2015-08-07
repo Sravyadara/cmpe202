@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import com.cmpe202.member.Member;
 import com.cmpe202.member.MemberDAO;
+import com.cmpe202.ride.Ride;
 
 public class Client {
 	
@@ -29,26 +30,78 @@ public class Client {
         System.out.println("2. Pass Request");
         System.out.println("0. Quit");
         System.out.print("Choose menu item: ");
+        String reqType;
         // handle user commands
         boolean quit = false;
         int menuItem;
-        do {
+       
 //              System.out.print("Choose menu item: ");
               menuItem = in.nextInt();
               switch (menuItem) {
               case 1:
-            	  System.out.print("");
+            	    {System.out.print("");
                     System.out.println("Welcome to Ride Service");
-                    
+                    System.out.println("-----------------------");
                     req= new Request();
-            		req.receiveRequest("ride");
+                    reqType= "ride";
             		
-            		
+            		 Scanner scanner = new Scanner(System.in);
+                     String ridetype,pickuploc,dropoffloc,vehicletype,pickuptime;
+               
+                     int noofseats;
+                     System.out.println("Enter PickUp Location");
+                     pickuploc=scanner.nextLine();
+                     System.out.println("Enter DropOff Location:");
+                     dropoffloc=scanner.nextLine();
+                     System.out.println("Enter Ride Type");
+                     System.out.println("a. Taxi");
+                     System.out.println("b. Ride Share");
+                     ridetype=scanner.nextLine();
+                     if(ridetype.equalsIgnoreCase("a"))
+                     {
+                    	 ridetype= "Taxi"; 
+                     }
+                     else
+                     {
+                    	 ridetype="Ride Share";
+                     }
+                     System.out.println("Enter PickUp Time(HH:MM)");
+                     pickuptime=scanner.nextLine();
+                     System.out.println("Enter No of Passengers");
+                     noofseats=scanner.nextInt();
+                     System.out.println("Enter Vehicle Type");
+                    
+                     System.out.println("1. Sedan");
+                     System.out.println("2. SUV");
+                     System.out.println("3. Luxury");
+                     int veh=scanner.nextInt();
+                     
+                     if(veh==1)
+                     {
+                    	 vehicletype= "Sedan"; 
+                     }
+                     else if(veh==2)
+                     {
+                    	 vehicletype="SUV";
+                     }
+                     else 
+                     {
+                    	 vehicletype="Luxury";
+                     }
+                     
+                     
+                     System.out.println("Your request got submitted, PLease wait for the response");
+                     req.receiveRequest(memberId,reqType);
+                     
+                     
+
+                    }
                     break;
               case 2:
+            	    reqType= "pass";
                     System.out.println("Pass Request");
                     req= new Request();
-            		req.receiveRequest("pass");
+            		req.receiveRequest(memberId,reqType,ridetype,pickuploc,dropoffloc,vehicletype,pickuptime);
             		
                     break;
               case 0:
@@ -57,7 +110,7 @@ public class Client {
               default:
                     System.out.println("Invalid choice.");
               }
-        } while (!quit);
+//        } while (!quit);
         //System.out.println("Bye-bye!");
 		
 	
@@ -71,7 +124,8 @@ public class Client {
 		Member member = memberDao.getMember(memberId);
 		 if(member != null)
 			 {System.out.println("Success");
-			 displayMember(member);
+			 //displayMember(member);
+
 			 callMenu(memberId);
 			 }
          else

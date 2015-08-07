@@ -9,7 +9,7 @@ public class ConnectionFactory {
     private static ConnectionFactory instance = new ConnectionFactory();
     public static final String URL = "jdbc:mysql://localhost/cmpe202_database";
     public static final String USER = "root";
-    public static final String PASSWORD = "";
+    public static final String PASSWORD = "myproject";
     public static final String DRIVER_CLASS = "com.mysql.jdbc.Driver"; 
      
     //private constructor
