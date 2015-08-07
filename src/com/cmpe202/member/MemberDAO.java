@@ -14,7 +14,7 @@ public class MemberDAO {
     public MemberDAO() { }
  
     public Member getMember(String MemberId) throws SQLException {
-        String query = "SELECT * FROM customer where customer_emailid=\"" + MemberId + "\"";
+        String query = "SELECT * FROM member where member_emailid=\"" + MemberId + "\"";
         ResultSet rs = null;
         Member member = null;
         try {
@@ -23,14 +23,18 @@ public class MemberDAO {
             rs = statement.executeQuery(query);
             if (rs.next()) {
             	member = new Member();
-            	member.setMemberid(rs.getString("customer_emailid"));
+            	member.setMemberid(rs.getString("member_emailid"));
             	member.setPassword(rs.getString("password"));
             	member.setRole(rs.getString("role"));
             	member.setMemberName(rs.getString("name"));
             	member.setAddress(rs.getString("address"));
             	member.setContact(rs.getString("contactno"));
             	member.setPaymentDetails(rs.getString("paymentcard"));
-            	//member.setLicenseDetails(rs.getString("employee_emailid"));
+            	member.setCvv(rs.getString("cvv"));
+            	member.setExpirydate(rs.getDate("expirydate"));
+            	member.setLicenseDetails(rs.getString("Licenseno"));
+            	member.setSsn(rs.getString("ssn"));
+            	member.setManager(rs.getString("manager"));
             	
             }
         } finally {
@@ -40,5 +44,6 @@ public class MemberDAO {
         }
         return member;
     }
+    
 
 }

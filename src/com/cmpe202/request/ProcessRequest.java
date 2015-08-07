@@ -10,7 +10,7 @@ public class ProcessRequest implements RequestStateInterface{
 		request = r;
 	}
 
-	public String receiveRequest() {
+	public String receiveRequest(String memberId,String requestType) {
 		// TODO Auto-generated method stub
 		return "Already received a request";
 	}

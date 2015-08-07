@@ -8,7 +8,7 @@ public class CancelRequest implements RequestStateInterface{
 		request = r;
 	}
 
-	public String receiveRequest() {
+	public String receiveRequest(String memberId,String requestType) {
 		return "The request is cancelled";
 	}
 

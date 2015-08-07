@@ -5,43 +5,38 @@ import java.util.HashMap;
 public class PayPal extends Payment{
 
 	@Override
-	public String pay(int amount, HashMap<String, String> details) {
+	public int pay(int amount, HashMap<String, String> details) {
 		String paymentMessage = "";
+		int paymentStatusCode = 0;
 		System.out.println("Paying through Paypal Account");
+		callSleep(2000);
 		if(verifyAccount()){
 			if(fwdToPaymentGateway()) {
 				paymentMessage = notifyCustomer();
-				//System.out.println(notifyCustomer());
+				paymentStatusCode = 1;
+				System.out.println(notifyCustomer());
 			}
 			else {
 				paymentMessage = "Transaction is incomplete. Please try again.";
-				//System.out.println("Transaction is incomplete. Please try again.");
+				paymentStatusCode = 2;
+				System.out.println("Transaction is incomplete. Please try again.");
 			}
 		}
 		else {
+			callSleep(2000);
 			paymentMessage = "Invalid Credentials. Please check and try again";
-			//System.out.println("Invalid credit card. Please check and try again");
+			paymentStatusCode = 3;
+			System.out.println("Invalid credit card. Please check and try again");
 		}
 		// TODO Auto-generated method stub
-		return paymentMessage;
+		return paymentStatusCode;
 	}
-	
-	public boolean fwdToPaymentGateway() {
-		return true;
-	}
+		
 	public boolean verifyAccount() {
 		//Cross verify the card details with the values stored in database and send corrsponding boolean value.
 		return true;
 	}
-	public String notifyCustomer() {
-		notifyDispatcher();
-		return "Payment accepted. Hope you enjoyed our service. Have a good one.";
-	}
-
-	public String notifyDispatcher() {
-		return "Notifying Dispatcher on Successfull Payment"; 
-	}
-
+	
 	@Override
 	public int calculateTotalAmount() {
 		// TODO Auto-generated method stub

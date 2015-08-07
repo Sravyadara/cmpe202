@@ -1,5 +1,7 @@
 package com.cmpe202.member;
 
+import java.util.Date;
+
 public class Member {
 	
 	protected String memberid;
@@ -10,7 +12,36 @@ public class Member {
 	protected String licenseDetails;
 	protected String contact;
 	protected String memberName;
+	protected String manager;
+	protected String cvv;
+	public String getCvv() {
+		return cvv;
+	}
+	public void setCvv(String cvv) {
+		this.cvv = cvv;
+	}
+	public Date getExpirydate() {
+		return expirydate;
+	}
+	public void setExpirydate(Date expirydate) {
+		this.expirydate = expirydate;
+	}
+	public String getSsn() {
+		return ssn;
+	}
+	public void setSsn(String ssn) {
+		this.ssn = ssn;
+	}
+	protected Date expirydate;
+	protected String ssn;
 	
+	
+	public String getManager() {
+		return manager;
+	}
+	public void setManager(String manager) {
+		this.manager = manager;
+	}
 	
 	public String getMemberid() {
 		return memberid;
