@@ -30,15 +30,19 @@ public class Request {
 	public Request(){
 		requestState = new InitiateRequest(this);
 	}
-	
+	public void receiveRequest(String memberId,String requestType,String ridetype,String pickuploc,String dropoffloc,String vehicletype,String pickuptime, int noofseats){
+		System.out.println(requestState.receiveRequest(memberId,requestType,ridetype,pickuploc,dropoffloc,vehicletype,pickuptime,noofseats));
+		System.out.println(requestState.processRequest(requestType));
+		
+	}
 	public void receiveRequest(String memberId,String requestType){
 		System.out.println(requestState.receiveRequest(memberId,requestType));
 		System.out.println(requestState.processRequest(requestType));
 		
 	}
-	/*public void processRequest(String requestType){
-		System.out.println(requestState.processRequest(requestType));
-	}*/
+	public void concludeRequest(){
+		System.out.println(requestState.concludeRequest());
+	}
 	public void cancelRequest(){
 		System.out.println(requestState.cancelRequest());
 	}

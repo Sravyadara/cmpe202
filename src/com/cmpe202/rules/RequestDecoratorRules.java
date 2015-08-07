@@ -2,6 +2,11 @@ package com.cmpe202.rules;
 
 public class RequestDecoratorRules extends DecoratorRules{
 
+	public RequestDecoratorRules(Rules rules) {
+		super(rules);
+		// TODO Auto-generated constructor stub
+	}
+
 	public String addRules() {
 		// TODO Auto-generated method stub
 		return null;
@@ -11,11 +16,11 @@ public class RequestDecoratorRules extends DecoratorRules{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	public boolean validate() {
 
-	@Override
-	public String validateDecoratorRules() {
-		// TODO Auto-generated method stub
-		return null;
+		super.validate();
+		return false;
 	}
+
 
 }

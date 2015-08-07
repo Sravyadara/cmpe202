@@ -1,8 +1,10 @@
 package com.cmpe202.ride;
 
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.HashMap;
 
+import com.cmpe202.member.Driver;
 import com.cmpe202.member.Member;
 import com.cmpe202.payment.CreditCard;
 import com.cmpe202.payment.Payment;
@@ -72,19 +74,21 @@ public abstract class Dispatch {
 	public void notifyDriver(){
 		
 	}
-	public Member searchDriver(){
-		ds = setStrategy("taxi");
-		return ds.searchDriver("taxi");
+	
+	public Driver searchDriver(Ride ride) throws SQLException{
+		ds = setStrategy(ride);
+		return ds.searchDriver(ride);
 	}
+	
 	public void notifyCustomer(){
 		
 	}
 	
-	public DispatchStrategyInterface setStrategy(String requesttype){
-		if(requesttype.equals("Taxi")){
+	public DispatchStrategyInterface setStrategy(Ride ride){
+		if(ride.getRidetype().equals("Taxi")){
 			ds = new TaxiDispatch();
 			
-		}else if(requesttype.equals("RideShare")){
+		}else if(ride.getRidetype().equals("RideShare")){
 			ds = new RideShareDispatch();
 		}
 		return ds;

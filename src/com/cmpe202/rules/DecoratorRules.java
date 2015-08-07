@@ -1,13 +1,17 @@
 package com.cmpe202.rules;
 
 public abstract class DecoratorRules extends Rules{
+	
+	protected Rules rules;
 
-	@Override
-	public String validate() {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean validate() {
+		
+		rules.validate();
+		return false;
+	}
+	public DecoratorRules(Rules rules){
+		this.rules = rules;
 	}
 	
-	public abstract String validateDecoratorRules();
 
 }

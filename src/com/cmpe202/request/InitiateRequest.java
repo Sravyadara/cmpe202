@@ -1,6 +1,7 @@
 package com.cmpe202.request;
 
 import java.io.IOException;
+import com.cmpe202.request.IssuePass;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,6 +12,7 @@ import java.util.Date;
 
 import com.cmpe202.member.Member;
 
+import com.cmpe202.ride.Ride;
 public class InitiateRequest implements RequestStateInterface{
 	
 	private Request request;
@@ -20,34 +22,47 @@ public class InitiateRequest implements RequestStateInterface{
 	public InitiateRequest(Request r){
 		request = r;
 	}
-
-	public String receiveRequest(String memberId,String requestType) {
+	
+	public String receiveRequest(String memberId,String requestType,String ridetype,String pickuploc,String dropoffloc,String vehicletype,String pickuptime, int noofseats ) {
 		// TODO Auto-generated method stub
 	try{	
 		insertRequest(memberId,requestType);
 		int reqid=getMaxRequestId();
-		System.out.println("RequestID "+ reqid);
+		Ride ride= new Ride();
+		ride.insertRide(memberId,requestType,reqid,ridetype,pickuploc,dropoffloc,pickuptime,noofseats,vehicletype);
 	}
 	catch(SQLException e)
 	{
-		
+		e.printStackTrace();
 	}
+	 	request.setRequestState(new ProcessRequest(request));
+	 	System.out.println("             ");
+		return "Received a request";
+	}
+	
+	public String receiveRequest(String memberId,String requestType) {
 		
-	 	   request.setRequestState(new ProcessRequest(request));
-		   
+	 	request.setRequestState(new ProcessRequest(request));
 		return "Received a request";
 	}
 
+	
+	
 	public String processRequest(String requestType) {
 		// TODO Auto-generated method stub
 		return "Must receive a request first";
 	}
-
+	
+	public String concludeRequest() {
+		// TODO Auto-generated method stub
+		return "Must receive a request first";
+	}
 	public String cancelRequest() {
 		// TODO Auto-generated method stub
 		return "Must receive a request first";
 	}
 
+	
 	public void insertRequest(String memberId,String reqType)throws SQLException {
 		  try{
 			  DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -60,9 +75,7 @@ public class InitiateRequest implements RequestStateInterface{
 	       String sql = "INSERT INTO request (member_emailid, requesttype,request_state,date)" +
 	                    "VALUES (" + "\""  + memberId + "\""  + "," + "\""  + reqType + "\""  + "," + "\""  +stareq + "\""  +","+ "\""  +reqdate + "\""  +")";
 	       reqstatement.executeUpdate(sql);
-	       System.out.println("Inserted into Request table");
-		      
-	
+		
 	}finally {
         DbUtil.close(reqstatement);
         DbUtil.close(reqconnection);

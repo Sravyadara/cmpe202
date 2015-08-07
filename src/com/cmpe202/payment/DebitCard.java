@@ -2,6 +2,9 @@ package com.cmpe202.payment;
 
 import java.util.HashMap;
 
+import com.cmpe202.rules.PaymentRules;
+import com.cmpe202.rules.Rules;
+
 public class DebitCard extends Payment{
 
 	@Override
@@ -9,7 +12,7 @@ public class DebitCard extends Payment{
 		String paymentMessage = "";
 		int paymentStatusCode = 0;
 		System.out.println("Paying through Debit Card");
-		if(verifyCard()){
+		if(verifyCard(details.get("cardNumber"), details.get("cvv"), details.get("expiry"))){
 			System.out.println("Debit Card Verification Done... Forwading to Payment Gateway.");
 			System.out.println("***** Please do not press any key ******");
 			callSleep(5000);
@@ -36,9 +39,9 @@ public class DebitCard extends Payment{
 	
 	
 	
-	public boolean verifyCard() {
-		//Cross verify the card details with the values stored in database and send corresponding boolean value.
-		return true;
+	public boolean verifyCard(String cardNumber, String cvv, String expiry) {
+		Rules paymentRules = new PaymentRules(cardNumber,cvv, expiry);
+		return paymentRules.validate();		
 	}
 	
 	@Override

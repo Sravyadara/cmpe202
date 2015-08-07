@@ -41,10 +41,7 @@ public class CreditCard extends Payment{
 	
 	public boolean verifyCard(String cardNumber, String cvv, String expiry) {
 		Rules paymentRules = new PaymentRules(cardNumber,cvv, expiry);
-		
-		//Cross verify the card details with the values stored in database and send corresponding boolean value.
-		//return paymentRules.validate();
-		return true;
+		return paymentRules.validate();		
 	}
 	
 
