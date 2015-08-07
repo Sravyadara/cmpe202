@@ -11,15 +11,16 @@ public class RegularBill extends Payment{
 	}
 
 	@Override
-	public int calculateTotalAmount() {
+	public int calculateTotalAmount(int amount) {
 		// TODO Auto-generated method stub
-		return 0;
+		return amount + 0;
 	}
 
 	@Override
 	public void notifyUserAboutAdditionalCharges() {
-		// TODO Auto-generated method stub
 		
+		// TODO Auto-generated method stub
+		System.out.println("No additional charges applied");
 	}
 	public boolean IsPeakHour(){
 		return true;

@@ -4,13 +4,15 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Scanner;
 
 import com.cmpe202.member.Member;
 import com.cmpe202.request.ConnectionFactory;
 import com.cmpe202.request.DbUtil;
-import com.cmpe202.request.RideDAO;
+import com.cmpe202.request.DBQuery;
 
 
 
@@ -38,21 +40,35 @@ public class EngagedState implements RideStateInterface{
 	@Override
 	public int RideInTransit() {
 		// TODO Auto-generated method stub
-		
-		Calendar cal = Calendar.getInstance();
-	     sTime = (int) cal.getTimeInMillis();
-       // dispatchStateContext.setStartTime(sTime);
-        RideDAO rideDAO = new RideDAO();
+		//Display Start Button
+		Scanner in = new Scanner(System.in);
+		System.out.println("Enter the option to start the ride");
+		System.out.println("1.Start the Ride");
+		int menuItem = in.nextInt();
+		if(menuItem == 1){
+		 Calendar cal = Calendar.getInstance();
+		 
+		 //time in milliseconds
+	     sTime =  (int) cal.getTimeInMillis();
+	     dispatchStateContext.setRideStartTime(sTime);
+	     System.out.println("Printing start time in milliseconds:"+sTime);
+	     
+	     //time in hh:mm
+	     final String startTime =
+		    	    new SimpleDateFormat("HH:mm").format(cal.getTime());
+	     System.out.println("Printing start time in hh:mm:"+startTime);
+         DBQuery rideDAO = new DBQuery();
         try {
-			rideDAO.updateStartTime(sTime, 1);
+			rideDAO.updateStartTime(startTime, 1);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         
         dispatchStateContext.setRideState(new ReleasedState(dispatchStateContext));
+		
+		}
 		return sTime;
-       
 	}	
 	
 

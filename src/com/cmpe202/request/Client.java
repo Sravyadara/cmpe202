@@ -5,6 +5,10 @@ import java.util.Scanner;
 
 import com.cmpe202.member.Member;
 import com.cmpe202.member.MemberDAO;
+import com.cmpe202.ride.Dispatch;
+import com.cmpe202.ride.EngagedState;
+import com.cmpe202.ride.ReleasedState;
+import com.cmpe202.ride.Ride;
 
 public class Client {
 	
@@ -62,27 +66,37 @@ public class Client {
 		
 	
 	}
+	
+
 	static Request req;
 	public static void main(String[] args) 
 	{   
-		 try {
-		String memberId="sravya@gmail.com";	 
-		MemberDAO memberDao = new MemberDAO();
-		Member member = memberDao.getMember(memberId);
-		 if(member != null)
-			 {System.out.println("Success");
-			 displayMember(member);
-			 callMenu(memberId);
-			 }
-         else
-             System.out.println("No Member with Id: "+ memberId);
-     } catch (NumberFormatException e) {
-         e.printStackTrace();
-     } catch (SQLException e) {
-         e.printStackTrace();
-     }
+		Dispatch dispatch = new Ride();
+		EngagedState rs = new EngagedState(dispatch);
+		rs.initiateRide();
+		rs.RideInTransit();
+		rs.concludeRide();
+		
+//		 try {
+//		String memberId="sravya@gmail.com";	 
+//		MemberDAO memberDao = new MemberDAO();
+//		Member member = memberDao.getMember(memberId);
+//		 if(member != null)
+//			 {System.out.println("Success");
+//			 displayMember(member);
+//			 callMenu(memberId);
+//			 }
+//         else
+//             System.out.println("No Member with Id: "+ memberId);
+//     } catch (NumberFormatException e) {
+//         e.printStackTrace();
+//     } catch (SQLException e) {
+//         e.printStackTrace();
+//     }
 		 
 	} 
+	
+
 	    
 		
 

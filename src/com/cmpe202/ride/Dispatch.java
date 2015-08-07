@@ -10,23 +10,53 @@ import com.cmpe202.request.Request;
 
 public abstract class Dispatch {
 
-	protected Payment p;
 	private Request request;
     private Payment payment;
     private RideStateInterface rideState;
-    
     private DispatchStrategyInterface ds;
-	//private int startTime;
-	//private int endTime;
+    private long rideStartTime;
+    private long rideEndTime;
+    private long rideTimeTaken;
+    private int billGenerated;
 	
-	//  do we need to have a constructor here for Ride ?
-	
+    public int getBillGenerated() {
+		return billGenerated;
+	}
+
+	public void setBillGenerated(int billGenerated) {
+		this.billGenerated = billGenerated;
+	}
+
+	public long getRideStartTime() {
+		return rideStartTime;
+	}
+
+	public void setRideStartTime(long rideStartTime) {
+		this.rideStartTime = rideStartTime;
+	}
+
+	public long getRideEndTime() {
+		return rideEndTime;
+	}
+
+	public void setRideEndTime(long rideEndTime) {
+		this.rideEndTime = rideEndTime;
+	}
+
+	public long getRideTimeTaken() {
+		return rideTimeTaken;
+	}
+
+	public void setRideTimeTaken(long rideTimeTaken) {
+		this.rideTimeTaken = rideTimeTaken;
+	}
+
 	public Dispatch(){
     	rideState = new WaitingState(this);
     }
 	
 	public Dispatch(Payment paymentType) {
-		this.p = paymentType;
+		this.payment = paymentType;
 	}
 	
 	public abstract void pay(int amount, HashMap<String, String> paymentModeDetails);
@@ -34,7 +64,7 @@ public abstract class Dispatch {
 	public abstract long calculateAmount();
 	
 	protected void payByMode(int amount, HashMap<String, String> paymentModeDetails){
-		p.pay(amount, paymentModeDetails);
+		payment.pay(amount, paymentModeDetails);
 		
 	}
 		
@@ -75,15 +105,22 @@ public abstract class Dispatch {
 		
 	}
 	public void ConcludeRide(){
-		this.rideState.concludeRide();
-		
-	}	
-	
-	public long calcTimeTaken(){
-		//timeTaken in minutes
-		long timeTaken = ((startTime - endTime)/1000)/60;
-		return timeTaken;
-		
+		this.rideState.concludeRide();		
 	}
-		
+
+	public Request getRequest() {
+		return request;
+	}
+
+	public void setRequest(Request request) {
+		this.request = request;
+	}
+
+	public Payment getPayment() {
+		return payment;
+	}
+
+	public void setPayment(Payment payment) {
+		this.payment = payment;
+	}			
 }

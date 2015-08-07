@@ -1,6 +1,7 @@
 package com.cmpe202.ride;
 
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -13,8 +14,9 @@ import com.cmpe202.payment.DebitCard;
 import com.cmpe202.payment.Pass;
 import com.cmpe202.payment.PayPal;
 import com.cmpe202.payment.Payment;
-
-import com.cmpe202.request.RideDAO;
+import com.cmpe202.payment.PeakHourBill;
+import com.cmpe202.payment.RegularBill;
+import com.cmpe202.request.DBQuery;
 
 
 
@@ -28,7 +30,8 @@ public class ReleasedState implements RideStateInterface{
 	String cardHolderName, expiry, paypalAccountId, passId, couponId;
 	Scanner in;
 	HashMap<String, String> paymentDetails = new HashMap<String, String>();
-	
+	private int endTime;
+	private int totalRideAmount;
 	
 	public ReleasedState(Dispatch d){
 		dispatchStateContext = d;
@@ -52,9 +55,22 @@ public class ReleasedState implements RideStateInterface{
 	@Override
 	public int concludeRide() {
 		// TODO Auto-generated method stub
+		//Display Start Button
+		Scanner in = new Scanner(System.in);
+		System.out.println("Enter the option to start the ride");
+		System.out.println("1.Stop the Ride");
+		int menuItem = in.nextInt();
+		if(menuItem == 1){
 		Calendar cal = Calendar.getInstance();
-		 int eTime = (int) cal.getTimeInMillis();
-		 RideDAO rideDAO = new RideDAO();
+		
+		//time in milli seconds
+		  endTime = (int) cal.getTimeInMillis();
+		  dispatchStateContext.setRideEndTime(endTime);
+		  
+		  //time in hh:mm
+		  final String eTime =
+		    	    new SimpleDateFormat("HH:mm").format(cal.getTime());
+		 DBQuery rideDAO = new DBQuery();
 		 try {
 			rideDAO.updateEndTime(eTime, 1);
 		} catch (SQLException e) {
@@ -63,20 +79,65 @@ public class ReleasedState implements RideStateInterface{
 		}
 		 
 		 try {
-			rideDAO.updateRideStatus(rideStateContext, 1);
+			rideDAO.updateRideStatus(dispatchStateContext, 1);
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		 
-	//	 rideStateContext.setEndTime(eTime);
-		return eTime;
+		}
+	
+		return endTime;
         
 		
 			
 	}
 	
-	public void showPaymentOptions(String memberId, int amount) {
+	public void calculateTotalTime(){
+		
+		int totalTime = (int) (dispatchStateContext.getRideEndTime() - dispatchStateContext.getRideEndTime());
+		dispatchStateContext.setRideTimeTaken(totalTime);
+	}
+	
+	public int calculateAmount(){
+		
+		int amount = (int) (((dispatchStateContext.getRideTimeTaken()/1000)/60)%60);
+		amount = amount * 2;
+		dispatchStateContext.setBillGenerated(amount);
+		return amount;
+	
+		
+		
+	}
+	
+    public void calculateRideAmount(int amount) {
+		
+		Payment p2 = new RegularBill();
+		
+		 try {
+			
+			if(p2.isPeakHour() == true ){
+				  p2 = new PeakHourBill();
+				   totalRideAmount = p2.calculateTotalAmount(amount);
+			 }else
+				   totalRideAmount = p2.calculateTotalAmount(amount);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 showPaymentOptions(1,totalRideAmount);
+		/* * Payment p2 = new PeakHorBill()
+		 * total = p2.calculateBill(amount)
+		 * if false the create RegularBill
+		 * 
+		showPaymentOptions(reid/ memid , total)*/
+	
+	}
+	 
+		 
+	
+	public void showPaymentOptions(int memberId, int amount) {
 		System.out.println("Please choose from the below payment methods.");
 		System.out.print("1. Pay Using Registered Card " + "\n" + "2. Use Another Credit Card" + "\n" + "3. Debit Card" + "\n" + "4. Paypal Account" + "\n" + "5. Pass" + "\n" + "6. Coupons" + "\n" + "7. Cash");
 		System.out.println("Choose menu item : ");
