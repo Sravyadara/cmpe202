@@ -1,6 +1,8 @@
 package com.cmpe202.ride;
 
+import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -16,7 +18,9 @@ import com.cmpe202.payment.PayPal;
 import com.cmpe202.payment.Payment;
 import com.cmpe202.payment.PeakHourBill;
 import com.cmpe202.payment.RegularBill;
+import com.cmpe202.request.ConnectionFactory;
 import com.cmpe202.request.DBQuery;
+import com.cmpe202.request.DbUtil;
 
 public class ReleasedState implements RideStateInterface{
 	
@@ -29,6 +33,8 @@ public class ReleasedState implements RideStateInterface{
 	static String cardHolderName, expiry, paypalAccountId, passId, couponId;
 	static Scanner in;
 	static HashMap<String, String> paymentDetails = new HashMap<String, String>();
+	private Connection paymentConnection;
+    private Statement paymentStatement;
 	
 	
 	public ReleasedState(Dispatch d){
@@ -182,7 +188,7 @@ public class ReleasedState implements RideStateInterface{
 				p = new CreditCard();				
 				d1 = new Ride(p);
 				paymentStatusCode = d1.pay(amount, paymentDetails);
-				checkPaymentStatusCode(paymentStatusCode, memberId, amount);
+				checkPaymentStatusCode("credit card", paymentStatusCode, memberId, amount, cardNumber);
 				
 				break;
 			
@@ -192,7 +198,7 @@ public class ReleasedState implements RideStateInterface{
 				p = new DebitCard();	
 				d1 = new Ride(p);
 				paymentStatusCode = d1.pay(amount, paymentDetails);
-				checkPaymentStatusCode(paymentStatusCode, memberId, amount);
+				checkPaymentStatusCode("debit card", paymentStatusCode, memberId, amount, cardNumber);
 				
 				break;
 				
@@ -204,7 +210,8 @@ public class ReleasedState implements RideStateInterface{
 				p = new PayPal();
 				//paywithPaypal(amount, paypalAccountId);
 				d1 = new Ride(p);
-				d1.pay(amount, paymentDetails);
+				paymentStatusCode = d1.pay(amount, paymentDetails);
+				checkPaymentStatusCode("paypal",paymentStatusCode, memberId, amount, paypalAccountId);
 				break;
 				
 			case 5:
@@ -214,7 +221,8 @@ public class ReleasedState implements RideStateInterface{
 				p = new Pass();
 				//payByPass(amount, passId);
 				d1 = new Ride(p);
-				d1.pay(amount, paymentDetails);
+				paymentStatusCode = d1.pay(amount, paymentDetails);
+				checkPaymentStatusCode("pass", paymentStatusCode, memberId, amount, passId);
 				break;
 			
 			/*case 6:
@@ -231,7 +239,8 @@ public class ReleasedState implements RideStateInterface{
 				p = new Cash();
 				//payByCash(amount);
 				d1 = new Ride(p);
-				d1.pay(amount, paymentDetails);
+				paymentStatusCode = d1.pay(amount, paymentDetails);
+				checkPaymentStatusCode("cash", paymentStatusCode, memberId, amount, "null");
 				break;
 				
 		}
@@ -252,13 +261,30 @@ public class ReleasedState implements RideStateInterface{
 		paymentDetails.put("cvv", cvv);		
 	}
 	
-	public static void checkPaymentStatusCode(int code, String memberId, int amount) {
+	public static void checkPaymentStatusCode(String mode, int code, String memberId, int amount, String card) {
 		if(code == 1) {
+			
 			// Update database and Call or present main menu
 			
 		}else if(code == 2 || code == 3) {
 			showPaymentOptions(memberId, amount);
 		}
+	}
+	
+	public void insertTransactionRecord(String memberId, int amount, double distance, String mode, String card, String status, String driverId, int requestId)throws SQLException {
+		  try{
+			  paymentConnection = ConnectionFactory.getConnection();
+		      paymentStatement = paymentConnection.createStatement();
+		      String sql = "INSERT INTO payment (payment_member_emailid, payment_requestid, payment_driver_emailid, distance_travelled, amount_charged, payment_mode, paymentcard, paymentstatus )" +
+		    		  		"VALUES (" + "\""  + memberId + "\""  + "," + "\""  + requestId + "\""  + "," + "\""  + driverId + "\""  + "," + "\""  + distance + "\""  + "," + "\""  + amount + "\""  + "," + "\""  + mode + "\""  + "," + "\""  + card + "\""  + "," + "\""  + status + "\""  +")";
+		      paymentStatement.executeUpdate(sql);
+		      System.out.println("Successfully inserted transaction status record");
+			  
+		  }finally {
+		        DbUtil.close(paymentStatement);
+		        DbUtil.close(paymentConnection);
+		    }
+		
 	}
 
 }
