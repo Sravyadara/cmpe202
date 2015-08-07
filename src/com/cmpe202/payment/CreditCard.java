@@ -42,7 +42,7 @@ public class CreditCard extends Payment{
 	
 
 	@Override
-	public int calculateTotalAmount() {
+	public int calculateTotalAmount(int  amount) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

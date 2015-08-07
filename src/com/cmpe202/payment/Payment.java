@@ -25,6 +25,7 @@ public abstract class Payment {
 		if(query.requestCount() > query.driverCount())
 			 peakHourBill = true;
 		return peakHourBill;
+	}
 		
 	
 	public abstract void notifyUserAboutAdditionalCharges();	

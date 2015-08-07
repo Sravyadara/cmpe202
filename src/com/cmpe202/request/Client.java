@@ -5,11 +5,9 @@ import java.util.Scanner;
 
 import com.cmpe202.member.Member;
 import com.cmpe202.member.MemberDAO;
-<<<<<<< HEAD
 import com.cmpe202.ride.Dispatch;
 import com.cmpe202.ride.EngagedState;
 import com.cmpe202.ride.ReleasedState;
-=======
 import com.cmpe202.ride.Ride;
 
 public class Client {
