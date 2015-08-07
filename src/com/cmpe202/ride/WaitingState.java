@@ -5,16 +5,16 @@ import com.cmpe202.ride.Ride;
 
 public class WaitingState implements RideStateInterface{
 
-private Dispatch rideStateContext;
+private Dispatch dispatchStateContext;
 	
 	public WaitingState(Dispatch d){
-		rideStateContext = d;
+		dispatchStateContext = d;
 	}
 
 	@Override
 	public void initiateRide() {
 		// TODO Auto-generated method stub
-		rideStateContext.setRideState(new EngagedState(rideStateContext));
+		dispatchStateContext.setRideState(new EngagedState(dispatchStateContext));
 	}
 
 	@Override

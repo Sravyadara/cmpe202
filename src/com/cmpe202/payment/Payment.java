@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public abstract class Payment {
 
-	abstract public String pay(int amount, HashMap<String, String> details);
+	abstract public int pay(int amount, HashMap<String, String> details);
 	
 	public void calculateBill(){
 		if (isPeakHour()){
@@ -13,7 +13,7 @@ public abstract class Payment {
 		calculateTotalAmount();
 	}
 	public abstract int calculateTotalAmount();
-	boolean isPeakHour(){
+	public boolean isPeakHour(){
 		return true;
 	}
 	public abstract void notifyUserAboutAdditionalCharges();	

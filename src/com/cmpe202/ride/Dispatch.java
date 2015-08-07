@@ -29,12 +29,13 @@ public abstract class Dispatch {
 		this.p = paymentType;
 	}
 	
-	public abstract void pay(int amount, HashMap<String, String> paymentModeDetails);
+	public abstract int pay(int amount, HashMap<String, String> paymentModeDetails);
 	
 	public abstract long calculateAmount();
 	
-	protected void payByMode(int amount, HashMap<String, String> paymentModeDetails){
-		p.pay(amount, paymentModeDetails);
+	protected int payByMode(int amount, HashMap<String, String> paymentModeDetails){
+		int paymentStatusCode = p.pay(amount, paymentModeDetails);
+		return paymentStatusCode;
 		
 	}
 		
@@ -79,11 +80,11 @@ public abstract class Dispatch {
 		
 	}	
 	
-	public long calcTimeTaken(){
+	/* public long calcTimeTaken(){
 		//timeTaken in minutes
 		long timeTaken = ((startTime - endTime)/1000)/60;
 		return timeTaken;
 		
-	}
+	} */
 		
 }

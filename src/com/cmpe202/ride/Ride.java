@@ -12,8 +12,9 @@ public class Ride extends Dispatch {
 	 }
 	
 	@Override
-	public void pay(int amount, HashMap<String, String> paymentModeDetails) {
-		payByMode(amount, paymentModeDetails);
+	public int pay(int amount, HashMap<String, String> paymentModeDetails) {
+		int paymentStatusCode = payByMode(amount, paymentModeDetails);
+		return paymentStatusCode;
 		
 	}
 

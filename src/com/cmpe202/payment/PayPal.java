@@ -5,25 +5,39 @@ import java.util.HashMap;
 public class PayPal extends Payment{
 
 	@Override
-	public String pay(int amount, HashMap<String, String> details) {
+	public int pay(int amount, HashMap<String, String> details) {
 		String paymentMessage = "";
+		int paymentStatusCode = 0;
 		System.out.println("Paying through Paypal Account");
+		callSleep(2000);
 		if(verifyAccount()){
 			if(fwdToPaymentGateway()) {
 				paymentMessage = notifyCustomer();
-				//System.out.println(notifyCustomer());
+				paymentStatusCode = 1;
+				System.out.println(notifyCustomer());
 			}
 			else {
 				paymentMessage = "Transaction is incomplete. Please try again.";
-				//System.out.println("Transaction is incomplete. Please try again.");
+				paymentStatusCode = 2;
+				System.out.println("Transaction is incomplete. Please try again.");
 			}
 		}
 		else {
+			callSleep(2000);
 			paymentMessage = "Invalid Credentials. Please check and try again";
-			//System.out.println("Invalid credit card. Please check and try again");
+			paymentStatusCode = 3;
+			System.out.println("Invalid credit card. Please check and try again");
 		}
 		// TODO Auto-generated method stub
-		return paymentMessage;
+		return paymentStatusCode;
+	}
+	
+	public void callSleep(int mseconds) {
+		try{
+			Thread.sleep(5000);
+		}catch(InterruptedException e) {
+			Thread.currentThread().interrupt();
+		}
 	}
 	
 	public boolean fwdToPaymentGateway() {

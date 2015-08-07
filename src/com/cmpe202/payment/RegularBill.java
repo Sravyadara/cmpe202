@@ -5,9 +5,9 @@ import java.util.HashMap;
 public class RegularBill extends Payment{
 
 	@Override
-	public String pay(int amount, HashMap<String, String> details) {
+	public int pay(int amount, HashMap<String, String> details) {
 		// TODO Auto-generated method stub
-		return null;
+		return 0;
 	}
 
 	@Override
