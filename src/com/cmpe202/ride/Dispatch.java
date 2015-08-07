@@ -64,7 +64,7 @@ public abstract class Dispatch {
 	public abstract long calculateAmount();
 	
 	protected int payByMode(int amount, HashMap<String, String> paymentModeDetails){
-		int paymentStatusCode = p.pay(amount, paymentModeDetails);
+		int paymentStatusCode = payment.pay(amount, paymentModeDetails);
 		return paymentStatusCode;
 		
 	}
@@ -127,11 +127,5 @@ public abstract class Dispatch {
 		
 	}	
 	
-	/* public long calcTimeTaken(){
-		//timeTaken in minutes
-		long timeTaken = ((startTime - endTime)/1000)/60;
-		return timeTaken;
-		
-	} */
-		
-}
+	
+

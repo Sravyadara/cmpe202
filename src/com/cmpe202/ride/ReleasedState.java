@@ -146,7 +146,7 @@ public class ReleasedState implements RideStateInterface{
 		 * 
 		showPaymentOptions(reid/ memid , total)
 	} */
-	
+	}
 	
 	public static void main(String []args) {
 		showPaymentOptions("123", 1234);
