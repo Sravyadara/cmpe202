@@ -6,6 +6,7 @@ import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Scanner;
 
 import com.cmpe202.member.Member;
@@ -15,12 +16,18 @@ import com.cmpe202.payment.CreditCard;
 import com.cmpe202.payment.DebitCard;
 import com.cmpe202.payment.Pass;
 import com.cmpe202.payment.PayPal;
+import com.cmpe202.payment.Payment;
 import com.cmpe202.request.ConnectionFactory;
 import com.cmpe202.request.DbUtil;
 
 public class Ride extends Dispatch { 
 	private Connection rideconnection;
     private Statement ridestatement;
+    
+    public Ride(Payment p) {
+    	super(p);
+    }
+    
 	@Override
 	
     public int pay(int amount, HashMap<String, String> paymentModeDetails) {

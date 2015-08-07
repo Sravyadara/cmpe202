@@ -101,7 +101,7 @@ public class Client {
             	    reqType= "pass";
                     System.out.println("Pass Request");
                     req= new Request();
-            		req.receiveRequest(memberId,reqType,ridetype,pickuploc,dropoffloc,vehicletype,pickuptime);
+            		req.receiveRequest(memberId,reqType);
             		
                     break;
               case 0:

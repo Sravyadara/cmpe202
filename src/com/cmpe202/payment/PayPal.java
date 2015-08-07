@@ -31,31 +31,12 @@ public class PayPal extends Payment{
 		// TODO Auto-generated method stub
 		return paymentStatusCode;
 	}
-	
-	public void callSleep(int mseconds) {
-		try{
-			Thread.sleep(5000);
-		}catch(InterruptedException e) {
-			Thread.currentThread().interrupt();
-		}
-	}
-	
-	public boolean fwdToPaymentGateway() {
-		return true;
-	}
+		
 	public boolean verifyAccount() {
 		//Cross verify the card details with the values stored in database and send corrsponding boolean value.
 		return true;
 	}
-	public String notifyCustomer() {
-		notifyDispatcher();
-		return "Payment accepted. Hope you enjoyed our service. Have a good one.";
-	}
-
-	public String notifyDispatcher() {
-		return "Notifying Dispatcher on Successfull Payment"; 
-	}
-
+	
 	@Override
 	public int calculateTotalAmount() {
 		// TODO Auto-generated method stub

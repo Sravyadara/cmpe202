@@ -149,7 +149,7 @@ public class ReleasedState implements RideStateInterface{
 				break;
 				
 			case 5:
-				System.out.print("Please enter weekly/monthly pass id : ");
+				System.out.println("Please enter weekly/monthly pass id : ");
 				passId = in.nextLine();
 				paymentDetails.put("passId", passId);
 				p = new Pass();
@@ -158,7 +158,7 @@ public class ReleasedState implements RideStateInterface{
 				d1.pay(amount, paymentDetails);
 				break;
 			
-			case 6:
+			/*case 6:
 				System.out.print("Please enter coupon number : ");
 				couponId = in.nextLine();
 				paymentDetails.put("couponId", couponId);
@@ -166,9 +166,9 @@ public class ReleasedState implements RideStateInterface{
 				//redeemCoupon(amount, couponId);
 				d1 = new Ride(p);
 				d1.pay(amount, paymentDetails);
-				break;
+				break;*/
 				
-			case 7:
+			case 6:
 				p = new Cash();
 				//payByCash(amount);
 				d1 = new Ride(p);

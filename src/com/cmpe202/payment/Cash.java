@@ -6,9 +6,12 @@ public class Cash extends Payment{
 
 	@Override
 	public int pay(int amount, HashMap<String, String> details) {
+		String paymentMessage = "";
 		// TODO Auto-generated method stub
 		//return "Paying through Cash Mode.... " + notifyCustomer();
-		return 0;
+		System.out.println("Cash payment accepted.");
+		System.out.println(notifyCustomer());
+		return 1;
 		
 	}
 
@@ -24,12 +27,4 @@ public class Cash extends Payment{
 		
 	}
 	
-	public String notifyCustomer() {
-		notifyDispatcher();
-		return "Payment accepted. Hope you enjoyed our service. Have a good one.";
-	}
-
-	public String notifyDispatcher() {
-		return "Notifying Dispatcher on Successfull Payment"; 
-	}
 }
