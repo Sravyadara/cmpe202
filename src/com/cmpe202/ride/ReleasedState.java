@@ -1,6 +1,7 @@
 package com.cmpe202.ride;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
@@ -33,8 +34,8 @@ public class ReleasedState implements RideStateInterface{
 	static String cardHolderName, expiry, paypalAccountId, passId, couponId;
 	static Scanner in;
 	static HashMap<String, String> paymentDetails = new HashMap<String, String>();
-	private Connection paymentConnection;
-    private Statement paymentStatement;
+	private static Connection connection;
+    private static Statement statement;
 	
 	
 	public ReleasedState(Dispatch d){
@@ -154,11 +155,11 @@ public class ReleasedState implements RideStateInterface{
 	} */
 	}
 	
-	public static void main(String []args) {
+	public static void main(String []args) throws SQLException {
 		showPaymentOptions("123", 1234);
 	}
 	
-	public static void showPaymentOptions(String memberId, int amount) {
+	public static void showPaymentOptions(String memberId, int amount) throws SQLException {
 		/*Dispatch d1;
 		Payment p;
 		String cardNumber, cvv;
@@ -171,20 +172,26 @@ public class ReleasedState implements RideStateInterface{
 		in = new Scanner(System.in);
 		String menuItemString = in.nextLine();
 		int menuItem = Integer.parseInt(menuItemString);
-		int paymentStatusCode;
-		
+		int paymentStatusCode, amountAfterDiscount;
+				
 		switch(menuItem) {
 			case 1:
+				System.out.println("Paying using registered credit card..");
+				amountAfterDiscount = checkForCoupon();
 				p = new CreditCard();
 				d1 = new Ride(p);
 				// fetch details from DB and construct a hashmap.
 				//payUsingRegisteredCard(amount);
-				d1.pay(amount, paymentDetails);
+				paymentDetails = getMemberCardDetails(memberId);
+				paymentStatusCode = d1.pay(amount, paymentDetails);
+				checkPaymentStatusCode("credit card", paymentStatusCode, memberId, amount, paymentDetails.get("cardNumber"));
 				break;
 				
 			case 2:
-				System.out.println("Please enter credit card number : ");
-				creditOrDebitCommonCode();				
+				System.out.println("Paying using credit card..");
+				amountAfterDiscount = checkForCoupon();
+				System.out.println("Please enter credit card number : ");				
+				creditOrDebitCommonCode();					
 				p = new CreditCard();				
 				d1 = new Ride(p);
 				paymentStatusCode = d1.pay(amount, paymentDetails);
@@ -193,8 +200,10 @@ public class ReleasedState implements RideStateInterface{
 				break;
 			
 			case 3:
-				System.out.println("Please enter debit card number : ");
-				creditOrDebitCommonCode();				
+				System.out.println("Paying using debit card..");
+				amountAfterDiscount = checkForCoupon();
+				System.out.println("Please enter debit card number : ");				
+				creditOrDebitCommonCode();					
 				p = new DebitCard();	
 				d1 = new Ride(p);
 				paymentStatusCode = d1.pay(amount, paymentDetails);
@@ -203,7 +212,9 @@ public class ReleasedState implements RideStateInterface{
 				break;
 				
 			case 4:
-				System.out.println("Redirecting to Paypal website ");
+				System.out.println("Paying using PayPal Account..");
+				amountAfterDiscount = checkForCoupon();
+				System.out.println("Redirecting to Paypal website ");				
 				System.out.print("Enter paypal account id : ");
 				paypalAccountId = in.nextLine();
 				paymentDetails.put("paypalAccountId", paypalAccountId);
@@ -215,6 +226,8 @@ public class ReleasedState implements RideStateInterface{
 				break;
 				
 			case 5:
+				System.out.println("Paying using existing Pass..");
+				amountAfterDiscount = checkForCoupon();
 				System.out.println("Please enter weekly/monthly pass id : ");
 				passId = in.nextLine();
 				paymentDetails.put("passId", passId);
@@ -236,6 +249,8 @@ public class ReleasedState implements RideStateInterface{
 				break;*/
 				
 			case 6:
+				System.out.println("Paying using Cash..");
+				amountAfterDiscount = checkForCoupon();
 				p = new Cash();
 				//payByCash(amount);
 				d1 = new Ride(p);
@@ -245,6 +260,21 @@ public class ReleasedState implements RideStateInterface{
 				
 		}
 		
+	}
+	
+	public static int checkForCoupon() {
+		System.out.println("Do you have any valid coupon ? (y/n) :");
+		String customerResponse = in.nextLine();
+		System.out.println("Customer response : " + customerResponse);
+		if(customerResponse.equals("y")) {
+			System.out.println("Enter Coupon Number : ");
+			String couponNumber = in.nextLine();
+			System.out.println("Entered number : " + couponNumber);
+			// create rules object for coupon and check for validity.
+			// if tue then get amount and deduct that from actual amount.
+		}
+		
+		return 0;
 	}
 	
 	public static void creditOrDebitCommonCode() {
@@ -261,30 +291,63 @@ public class ReleasedState implements RideStateInterface{
 		paymentDetails.put("cvv", cvv);		
 	}
 	
-	public static void checkPaymentStatusCode(String mode, int code, String memberId, int amount, String card) {
+	public static void checkPaymentStatusCode(String mode, int code, String memberId, int amount, String card) throws SQLException {
 		if(code == 1) {
 			
 			// Update database and Call or present main menu
+			try {
+				insertTransactionRecord("ramyaky@gmail.com", 20, 30, "credit card", "48674896506", "success", "dummydriver@gmail.com", 12345);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
 			
 		}else if(code == 2 || code == 3) {
 			showPaymentOptions(memberId, amount);
 		}
 	}
 	
-	public void insertTransactionRecord(String memberId, int amount, double distance, String mode, String card, String status, String driverId, int requestId)throws SQLException {
+	public static void insertTransactionRecord(String memberId, int amount, double distance, String mode, String card, String status, String driverId, int requestId)throws SQLException {
 		  try{
-			  paymentConnection = ConnectionFactory.getConnection();
-		      paymentStatement = paymentConnection.createStatement();
+			  
+			  connection = ConnectionFactory.getConnection();
+		      statement = connection.createStatement();
 		      String sql = "INSERT INTO payment (payment_member_emailid, payment_requestid, payment_driver_emailid, distance_travelled, amount_charged, payment_mode, paymentcard, paymentstatus )" +
 		    		  		"VALUES (" + "\""  + memberId + "\""  + "," + "\""  + requestId + "\""  + "," + "\""  + driverId + "\""  + "," + "\""  + distance + "\""  + "," + "\""  + amount + "\""  + "," + "\""  + mode + "\""  + "," + "\""  + card + "\""  + "," + "\""  + status + "\""  +")";
-		      paymentStatement.executeUpdate(sql);
+		      statement.executeUpdate(sql);
 		      System.out.println("Successfully inserted transaction status record");
 			  
 		  }finally {
-		        DbUtil.close(paymentStatement);
-		        DbUtil.close(paymentConnection);
+		        DbUtil.close(statement);
+		        DbUtil.close(connection);
 		    }
 		
+	}
+	
+	public static HashMap<String, String> getMemberCardDetails(String memberId) throws SQLException {
+		HashMap<String, String> hm = new HashMap<String, String>();
+		try{
+			  ResultSet resultSet;
+			  
+			  connection = ConnectionFactory.getConnection();
+		      statement = connection.createStatement();
+		      /* String sql = "INSERT INTO payment (payment_member_emailid, payment_requestid, payment_driver_emailid, distance_travelled, amount_charged, payment_mode, paymentcard, paymentstatus )" +
+		    		  		"VALUES (" + "\""  + memberId + "\""  + "," + "\""  + requestId + "\""  + "," + "\""  + driverId + "\""  + "," + "\""  + distance + "\""  + "," + "\""  + amount + "\""  + "," + "\""  + mode + "\""  + "," + "\""  + card + "\""  + "," + "\""  + status + "\""  +")";
+		      paymentStatement.executeUpdate(sql); */
+		      String sql = "SELECT paymentcard, name, cvv, expirydate FROM member where member_emailid = " + "\"" + memberId + "\"";
+		      resultSet = statement.executeQuery(sql);
+		      while(resultSet.next()) {
+		    	  hm.put("cardNumber", resultSet.getString("paymentcard"));
+		    	  hm.put("cardHolderName", resultSet.getString("name"));
+		    	  hm.put("cvv", resultSet.getString("cvv"));
+		    	  hm.put("expiry", resultSet.getString("expirydate"));
+		      }
+			  
+		  }finally {
+		        DbUtil.close(statement);
+		        DbUtil.close(connection);
+		    }
+		
+		return hm;
 	}
 
 }

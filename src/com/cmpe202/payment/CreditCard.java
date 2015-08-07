@@ -2,14 +2,18 @@ package com.cmpe202.payment;
 
 import java.util.HashMap;
 
+import com.cmpe202.rules.PaymentRules;
+import com.cmpe202.rules.Rules;
+
 public class CreditCard extends Payment{
 
 	@Override
 	public int pay(int amount, HashMap<String, String> details) {
 		String paymentMessage = "";
 		int paymentStatusCode = 0;
+		//String cardNumber, cvv, expiryDate;
 		//System.out.println("Paying through Credit Card");
-		if(verifyCard()){
+		if(verifyCard(details.get("cardNumber"), details.get("cvv"), details.get("expiry"))){
 			System.out.println("Credit Card Verification Done... Forwading to Payment Gateway.");
 			System.out.println("***** Please do not press any key ******");
 			callSleep(5000);
@@ -35,9 +39,12 @@ public class CreditCard extends Payment{
 		return paymentStatusCode;
 	}
 	
-	public boolean verifyCard() {
-		//Cross verify the card details with the values stored in database and send corrsponding boolean value.
-		return false;
+	public boolean verifyCard(String cardNumber, String cvv, String expiry) {
+		Rules paymentRules = new PaymentRules(cardNumber,cvv, expiry);
+		
+		//Cross verify the card details with the values stored in database and send corresponding boolean value.
+		//return paymentRules.validate();
+		return true;
 	}
 	
 
