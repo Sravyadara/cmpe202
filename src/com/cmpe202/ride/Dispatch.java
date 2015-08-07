@@ -1,8 +1,10 @@
 package com.cmpe202.ride;
 
 import java.util.Date;
+import java.util.HashMap;
 
 import com.cmpe202.member.Member;
+import com.cmpe202.payment.CreditCard;
 import com.cmpe202.payment.Payment;
 import com.cmpe202.request.Request;
 
@@ -14,8 +16,8 @@ public abstract class Dispatch {
     private RideStateInterface rideState;
     
     private DispatchStrategyInterface ds;
-	private int startTime;
-	private int endTime;
+	//private int startTime;
+	//private int endTime;
 	
 	//  do we need to have a constructor here for Ride ?
 	
@@ -23,63 +25,19 @@ public abstract class Dispatch {
     	rideState = new WaitingState(this);
     }
 	
-	/*public Dispatch(Payment paymentVariable) {
-		this.p = paymentVariable;
-	}*/
+	public Dispatch(Payment paymentType) {
+		this.p = paymentType;
+	}
 	
-	public abstract void pay(int amount);
+	public abstract void pay(int amount, HashMap<String, String> paymentModeDetails);
 	
 	public abstract long calculateAmount();
 	
-	protected void payByCC(Payment creditCard, int amount, int creditCardNumber, int CVV , String NameOnCard, String expirydate){
-		// It has to receive payment object. Check constructor above.
-		// Call paymnetObject.pay();
-		creditCard.pay(amount, "");
-		
-		
+	protected void payByMode(int amount, HashMap<String, String> paymentModeDetails){
+		p.pay(amount, paymentModeDetails);
 		
 	}
-	protected void payByDC(Payment debitCard, int amount, int debitCardNumber, int CVV , String NameOnCard, String expirydate){
-		// It has to receive payment object.
-		// Call paymnetObject.pay();
-		debitCard.pay(amount, "");
-	}
-	protected void redeemCoupon(Payment coupon, int amount, int couponNo){
-		// It has to receive payment object.
-		// Call paymnetObject.pay();
-		coupon.pay(amount, "");
-	}
-	protected void payByCash(Payment cash, int amount){
-		// It has to receive payment object.
-		// Call paymnetObject.pay();
-		cash.pay(amount, "");
-	}
-	protected void paywithPaypal(Payment paypal, int amount, String paypalAccountId){
-		// It has to receive payment object.
-		// Call paymnetObject.pay();
-		paypal.pay(amount, "");
-	}
-	
-	protected void payByPass(Payment pass, int amount, String passId) {
-		pass.pay(amount, "");
-	}
-	
-	public int getStartTime() {
-		return startTime;
-	}
-
-	public void setStartTime(int startTime) {
-		this.startTime = startTime;
-	}
-	
-	public int getEndTime() {
-		return endTime;
-	}
-
-	public void setEndTime(int endTime) {
-		this.endTime = endTime;
-	}
-	
+		
 	public void notifyDriver(){
 		
 	}
@@ -119,7 +77,7 @@ public abstract class Dispatch {
 	public void ConcludeRide(){
 		this.rideState.concludeRide();
 		
-	}
+	}	
 	
 	public long calcTimeTaken(){
 		//timeTaken in minutes
