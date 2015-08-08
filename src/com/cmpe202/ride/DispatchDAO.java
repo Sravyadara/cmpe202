@@ -20,7 +20,7 @@ public class DispatchDAO {
 	public HashMap<String, Point> getAllDriversLocation(String rideType)
 			throws SQLException {
 		String query = "SELECT * FROM driver WHERE driverstatus=" + "'free'"
-				+ "AND driver_type= '" + rideType + "'";
+				+ " AND driver_type= '" + rideType + "'";
 		ResultSet rs = null;
 		HashMap<String, Point> driverCoordinates = new HashMap<String, Point>();
 		Point point;

@@ -156,7 +156,7 @@ public class SignUpForm {
 			}
 			System.out
 					.println("Registration is successful, Please use your MemberId and Password as login credentials ");
-			return name;
+			return memberId;
 		} else {
 			return "Error";
 		}

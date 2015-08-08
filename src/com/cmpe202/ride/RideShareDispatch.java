@@ -26,7 +26,7 @@ public class RideShareDispatch implements DispatchStrategyInterface {
 		HashMap<String, Point> driverCoordinates = new HashMap<String, Point>();
 		HashMap<String, Double> distances = new HashMap<String, Double>();
 		DispatchDAO dispatchDAO = new DispatchDAO();
-		Driver driver = new Driver();
+		Driver driver = null;
 		double totalTime = 0.0;
 
 		ride.getPickuplocation();
@@ -40,66 +40,67 @@ public class RideShareDispatch implements DispatchStrategyInterface {
 		customerPoint.setY(y);
 
 		// get existing coordinates of all the drivers from the database
-		driverCoordinates = dispatchDAO.getAllDriversLocation(ride.getRidetype());
+		driverCoordinates = dispatchDAO.getAllDriversLocation(ride
+				.getRidetype());
 
-		if(driverCoordinates.size() != 0){
-		// calculate distance between two coordinates
-		for (Map.Entry<String, Point> entry : driverCoordinates.entrySet()) {
-			distances
-					.put(entry.getKey(), Math.sqrt(Math.pow((entry.getValue()
-							.getX() - customerPoint.getX()), 2)
-							+ Math.pow((entry.getValue().getY() - customerPoint
-									.getY()), 2)));
-		}
-		Map<String, Double> sortedDistance = sortByComparator(distances);
-
-		// find the driver with least distance
-		for (Map.Entry<String, Double> entry : sortedDistance.entrySet()) {
-			driverId = entry.getKey();
-			totalTime = entry.getValue();
-			break;
-		}
-
-		// insert into dispatch table
-		// --get customer email id from member
-		// --get driver details based on driver_email_id
-		driver = dispatchDAO.getDriverByEmailId(driverId);
-		String member_emailId = dispatchDAO.getCustomerByEmail(ride
-				.getRequestid());
-
-		if (driver != null && member_emailId != null) {
-			int status = dispatchDAO
-					.insertDispatch(ride.getRideid(), driver.getMemberid(),
-							driver.getVehicleId(), member_emailId);
-
-			if (status != 0) {
-				// notify customer and driver
-				/*
-				 * System.out.println(
-				 * "Customer-Notification:-----Your ride will reach you in "
-				 * +totalTime*5 + " mins"); System.out.println(
-				 * "Driver-Notification:-----Your ride is waiting at "
-				 * +ride.getPickuplocation() +
-				 * " with Customer email: "+member_emailId);
-				 */
-
-				Notifications notification = new Notifications();
-				notification
-						.sendMessage("Customer-Notification:-----Your ride will reach you in "
-								+ totalTime * 5 + " mins");
-				notification
-						.sendMessage("Driver-Notification:-----Your ride is waiting at "
-								+ ride.getPickuplocation()
-								+ " with Customer email: " + member_emailId);
+		if (driverCoordinates.size() != 0) {
+			// calculate distance between two coordinates
+			for (Map.Entry<String, Point> entry : driverCoordinates.entrySet()) {
+				distances
+						.put(entry.getKey(),
+								Math.sqrt(Math
+										.pow((entry.getValue().getX() - customerPoint
+												.getX()), 2)
+										+ Math.pow(
+												(entry.getValue().getY() - customerPoint
+														.getY()), 2)));
 			}
-			// update vehicle and driver status
-			dispatchDAO.updateDriverStatus("assigned", driverId);
-		}else{
-			System.out.println("Sorry, we do not have any uber drivers available. Please try again after some time");
-		}
-		
+			Map<String, Double> sortedDistance = sortByComparator(distances);
 
-		}
+			// find the driver with least distance
+			for (Map.Entry<String, Double> entry : sortedDistance.entrySet()) {
+				driverId = entry.getKey();
+				totalTime = entry.getValue();
+				break;
+			}
+
+			// insert into dispatch table
+			// --get customer email id from member
+			// --get driver details based on driver_email_id
+			driver = dispatchDAO.getDriverByEmailId(driverId);
+			String member_emailId = dispatchDAO.getCustomerByEmail(ride
+					.getRequestid());
+
+			if (driver != null && member_emailId != null) {
+				int status = dispatchDAO.insertDispatch(ride.getRideid(),
+						driver.getMemberid(), driver.getVehicleId(),
+						member_emailId);
+
+				if (status != 0) {
+					// notify customer and driver
+					/*
+					 * System.out.println(
+					 * "Customer-Notification:-----Your ride will reach you in "
+					 * +totalTime*5 + " mins"); System.out.println(
+					 * "Driver-Notification:-----Your ride is waiting at "
+					 * +ride.getPickuplocation() +
+					 * " with Customer email: "+member_emailId);
+					 */
+
+					Notifications notification = new Notifications();
+					notification
+							.sendMessage("Customer-Notification:-----Your ride will reach you in "
+									+ totalTime * 5 + " mins");
+					notification
+							.sendMessage("Driver-Notification:-----Your ride is waiting at "
+									+ ride.getPickuplocation()
+									+ " with Customer email: " + member_emailId);
+				}
+				// update vehicle and driver status
+				dispatchDAO.updateDriverStatus("assigned", driverId);
+			} 
+
+		} 
 
 		return driver;
 	}

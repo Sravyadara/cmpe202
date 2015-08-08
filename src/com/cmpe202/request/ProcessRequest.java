@@ -66,6 +66,7 @@ public class ProcessRequest implements RequestStateInterface {
 	// }
 
 	public String processRequest(String requestType) {
+		System.out.println("Request is in processing state");
 		RideDAO ridedao = new RideDAO();
 		Ride ride;
 		DispatchDAO dispatchDAO = new DispatchDAO();
@@ -78,18 +79,22 @@ public class ProcessRequest implements RequestStateInterface {
 				DispatchDAO dispatchdao = new DispatchDAO();
 				Dispatch dispatch = new Ride();
 				Driver driver = dispatch.searchDriver(ride);
-				if(driver != null){
-				dispatch.initiateRide();
-				HashMap<String, String> rideDetails = new HashMap<String, String>();
-				rideDetails.put("requestId",Integer.toString(ride.getRequestid()));
-				rideDetails.put("driverId", driver.getMemberid());
-				rideDetails.put("memberId", dispatchdao.getCustomerByEmail(ride.getRequestid()));
-				rideDetails.put("requestType", ride.getRidetype());
-				dispatch.RideInTransit(rideDetails);
-				dispatch.ConcludeRide(rideDetails);
-				request.setRequestState(new ConcludeRequest(request));
-				dispatchDAO.updateDriverStatus("free", driver.getMemberid());
-				}else{
+				if (driver != null) {
+					dispatch.initiateRide();
+					HashMap<String, String> rideDetails = new HashMap<String, String>();
+					rideDetails.put("requestId",
+							Integer.toString(ride.getRequestid()));
+					rideDetails.put("driverId", driver.getMemberid());
+					rideDetails
+							.put("memberId", dispatchdao
+									.getCustomerByEmail(ride.getRequestid()));
+					rideDetails.put("requestType", ride.getRidetype());
+					dispatch.RideInTransit(rideDetails);
+					dispatch.ConcludeRide(rideDetails);
+					request.setRequestState(new ConcludeRequest(request));
+					dispatchDAO
+							.updateDriverStatus("free", driver.getMemberid());
+				} else{
 					System.out.println("Sorry, we do not have any drivers available. Please try again after some time");
 				}
 				// request.setRequestState(new ConcludeRequest(request));
@@ -103,7 +108,7 @@ public class ProcessRequest implements RequestStateInterface {
 			return "Request is Served";
 		}
 		/*System.out.println("                "); */
-		return "Request is in processing state";
+		return "Request is Served";
 
 	}
 

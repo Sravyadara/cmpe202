@@ -150,13 +150,7 @@ public class ReleasedState implements RideStateInterface {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		// showPaymentOptions(1,totalRideAmount);
-		/*
-		 * * Payment p2 = new PeakHorBill() total = p2.calculateBill(amount) if
-		 * false the create RegularBill
-		 * 
-		 * showPaymentOptions(reid/ memid , total)
-		 */
+		
 		return totalRideAmount;
 
 	}
@@ -268,13 +262,6 @@ public class ReleasedState implements RideStateInterface {
 					driverId, requestId, amountAfterDiscount, rideDistance,
 					passId, rideDetails);
 			break;
-
-		/*
-		 * case 6: System.out.print("Please enter coupon number : "); couponId =
-		 * in.nextLine(); paymentDetails.put("couponId", couponId); p = new
-		 * Coupons(); //redeemCoupon(amount, couponId); d1 = new Ride(p);
-		 * d1.pay(amount, paymentDetails); break;
-		 */
 
 		case 6:
 			System.out.println("Paying using Cash..");

@@ -40,9 +40,9 @@ public class DebitCard extends Payment {
 	}
 
 	public boolean verifyCard(String cardNumber, String cvv, String expiry) {
-		//Rules paymentRules = new PaymentRules(cardNumber, cvv, expiry);
-		//return paymentRules.validate();
-		return true;
+		Rules paymentRules = new PaymentRules(cardNumber, cvv, expiry);
+		return paymentRules.validate();
+		//return true;
 	}
 
 	@Override
