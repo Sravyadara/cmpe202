@@ -15,7 +15,7 @@ public class MemberRules extends Rules{
 				if(isValidEmailAddress(emailId) && isValidLicenseNumber(licenseNumber)){
 					validationStatus = true;
 				}
-			}else if(member_role.equalsIgnoreCase("Customer")){
+			}else if(member_role.equalsIgnoreCase("Customer") || member_role.equalsIgnoreCase("executive") ){
 				if(isValidEmailAddress(emailId)){
 					validationStatus = true;
 				}
@@ -33,7 +33,7 @@ public class MemberRules extends Rules{
 		if(member_role.equalsIgnoreCase("Driver")){
 			if(emailId == null || licenseNumber == null)
 				return_status = false;
-		}else if(member_role.equalsIgnoreCase("Customer")){
+		}else if(member_role.equalsIgnoreCase("Customer") || member_role.equalsIgnoreCase("executive")){
 			if(emailId == null)
 				return_status = false;
 		}
