@@ -66,7 +66,7 @@ public class ReleasedState implements RideStateInterface {
 		// TODO Auto-generated method stub
 		// Display Start Button
 		Scanner in = new Scanner(System.in);
-		System.out.println("Enter the option to start the ride");
+		System.out.println("Enter the option to stop the ride");
 		System.out.println("1.Stop the Ride");
 		int menuItem = in.nextInt();
 		if (menuItem == 1) {
@@ -91,10 +91,12 @@ public class ReleasedState implements RideStateInterface {
 			try {
 				/*rideDAO.updateRideStatus(dispatchStateContext,
 						Integer.parseInt(rideDetails.get("requestId")));*/
-				System.out.println("------------------------------------");
-				System.out.println("Printing calculateTotalTime value : " + calculateTotalTime());
+				/*System.out.println("------------------------------------");
+				System.out.println("Printing calculateTotalTime value : " + calculateTotalTime());*/
 				rideDetails.put("rideDistance",
-						Integer.toString(calculateTotalTime()));
+						Double.toString((calculateTotalTime())/1000.0));
+				/*rideDetails.put("rideDistance",
+						Integer.toString((calculateTotalTime())/1000));*/
 				int rideAmount = calculateRideAmount(calculateAmount(rideDetails));
 				rideDetails.put("rideAmount", Integer.toString(rideAmount));
 
@@ -130,7 +132,7 @@ public class ReleasedState implements RideStateInterface {
 		}
 		//amount = amount * 2;
 		dispatchStateContext.setBillGenerated(amount);
-		System.out.println("Printing amount value in calculateAmount() : " +amount);
+		/*System.out.println("Printing amount value in calculateAmount() : " +amount);*/
 		return amount;
 
 	}
@@ -165,8 +167,8 @@ public class ReleasedState implements RideStateInterface {
 		int requestId = Integer.parseInt(rideDetails.get("requestId"));
 		double rideDistance = Double.parseDouble(rideDetails
 				.get("rideDistance"));
-		System.out.println("Total Ride Distance : " + rideDistance);
-		System.out.println("Total Ride Amount : " + amount);
+		System.out.println("Total Ride Distance : " + rideDistance + " miles");
+		System.out.println("Total Ride Amount : $" + amount);
 		System.out
 				.println("\n=========================================================\n");
 		System.out.println("Please choose from the below payment methods.");
@@ -193,7 +195,7 @@ public class ReleasedState implements RideStateInterface {
 		
 		switch (menuItem) {
 		case 1:
-			System.out.println("Paying using registered credit card..");
+			System.out.println("Paying using registered credit card..\n");
 			amountAfterDiscount = (int) checkForCoupon(amount, seasonalDiscount);
 			p = new CreditCard();
 			d1 = new Ride(p);
@@ -206,7 +208,7 @@ public class ReleasedState implements RideStateInterface {
 			break;
 
 		case 2:
-			System.out.println("Paying using credit card..");
+			System.out.println("Paying using credit card..\n");
 			amountAfterDiscount = (int)checkForCoupon(amount, seasonalDiscount);
 			System.out.println("Please enter credit card number : ");
 			creditOrDebitCommonCode();
@@ -220,7 +222,7 @@ public class ReleasedState implements RideStateInterface {
 			break;
 
 		case 3:
-			System.out.println("Paying using debit card..");
+			System.out.println("Paying using debit card..\n");
 			amountAfterDiscount = (int)checkForCoupon(amount, seasonalDiscount);
 			System.out.println("Please enter debit card number : ");
 			creditOrDebitCommonCode();
@@ -234,7 +236,7 @@ public class ReleasedState implements RideStateInterface {
 			break;
 
 		case 4:
-			System.out.println("Paying using PayPal Account..");
+			System.out.println("Paying using PayPal Account..\n");
 			amountAfterDiscount = (int)checkForCoupon(amount, seasonalDiscount);
 			System.out.println("Redirecting to Paypal website ");
 			System.out.print("Enter paypal account id : ");
@@ -249,7 +251,7 @@ public class ReleasedState implements RideStateInterface {
 			break;
 
 		case 5:
-			System.out.println("Paying using existing Pass..");
+			System.out.println("Paying using existing Pass..\n");
 			amountAfterDiscount = (int)checkForCoupon(amount, seasonalDiscount);
 			System.out.println("Please enter weekly/monthly pass id : ");
 			passId = in.nextLine();
@@ -264,7 +266,7 @@ public class ReleasedState implements RideStateInterface {
 			break;
 
 		case 6:
-			System.out.println("Paying using Cash..");
+			System.out.println("Paying using Cash..\n");
 			amountAfterDiscount = (int) checkForCoupon(amount, seasonalDiscount);
 			p = new Cash();
 			// payByCash(amount);
@@ -281,7 +283,7 @@ public class ReleasedState implements RideStateInterface {
 
 	public double checkForCoupon(int amount, int sdiscount) throws SQLException {
 		int discount = 0;
-		double finalAmount = 0.0;
+		double finalAmount = amount;
 		System.out.println("Do you have any valid coupon ? (y/n) :");
 		String customerResponse = in.nextLine();
 		System.out.println("Customer response : " + customerResponse);
@@ -309,7 +311,7 @@ public class ReleasedState implements RideStateInterface {
 			System.out.println("Successfully applied " + sdiscount
 					+ "% coupon");
 		}
-		
+		System.out.println("\nTotal amount charged : $" + finalAmount);
 		return finalAmount;
 	}
 
@@ -389,8 +391,8 @@ public class ReleasedState implements RideStateInterface {
 					+ "\""
 					+ ")";
 			statement.executeUpdate(sql);
-			System.out
-					.println("Successfully inserted transaction status record");
+			/*System.out
+					.println("Successfully inserted transaction status record");*/
 
 		} finally {
 			DbUtil.close(statement);

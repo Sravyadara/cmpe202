@@ -48,12 +48,12 @@ public class EngagedState implements RideStateInterface {
 			// time in milliseconds
 			sTime = (int) cal.getTimeInMillis();
 			dispatchStateContext.setRideStartTime(sTime);
-			System.out.println("Printing start time in milliseconds:" + sTime);
+			/*System.out.println("Printing start time in milliseconds:" + sTime);*/
 
 			// time in hh:mm
 			final String startTime = new SimpleDateFormat("HH:mm").format(cal
 					.getTime());
-			System.out.println("Printing start time in hh:mm:" + startTime);
+			/*System.out.println("Printing start time in hh:mm:" + startTime);*/
 			DBQuery rideDAO = new DBQuery();
 			try {
 				rideDAO.updateStartTime(startTime,

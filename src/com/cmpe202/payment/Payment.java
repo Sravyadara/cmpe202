@@ -34,12 +34,12 @@ public abstract class Payment {
 	public void notifyCustomer() {
 		notifyDispatcher();
 		notification
-				.sendMessage("Notifying Customer --> Payment accepted. Thanks for using our service. \n \n Hope you enjoyed our service. Have a good one.");
+				.sendMessage("\nNotifying Customer --> Payment accepted. Thanks for using our service. \n \n Hope you enjoyed our service. Have a good one\n.");
 		;
 	}
 
 	public void notifyDispatcher() {
-		notification.sendMessage("Notifying Dispatcher on Successfull Payment");
+		notification.sendMessage(" ( ---- Notifying Dispatcher about Successful Payment ----");
 	}
 
 	public boolean fwdToPaymentGateway() {
