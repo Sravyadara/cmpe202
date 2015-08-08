@@ -2,21 +2,21 @@ package com.cmpe202.payment;
 
 import java.util.HashMap;
 
-public class Cash extends Payment{
+public class Cash extends Payment {
 
 	@Override
 	public int pay(int amount, HashMap<String, String> details) {
 		String paymentMessage = "";
 		// TODO Auto-generated method stub
-		//return "Paying through Cash Mode.... " + notifyCustomer();
+		// return "Paying through Cash Mode.... " + notifyCustomer();
 		System.out.println("Cash payment accepted.");
-		System.out.println(notifyCustomer());
+		notifyCustomer();
 		return 1;
-		
+
 	}
 
 	@Override
-	public int calculateTotalAmount(int  amount) {
+	public int calculateTotalAmount(int amount) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -24,7 +24,7 @@ public class Cash extends Payment{
 	@Override
 	public void notifyUserAboutAdditionalCharges() {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 }

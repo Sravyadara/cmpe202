@@ -13,15 +13,15 @@ import com.cmpe202.request.Request;
 public abstract class Dispatch {
 
 	private Request request;
-    private Payment payment;
-    private RideStateInterface rideState;
-    private DispatchStrategyInterface ds;
-    private long rideStartTime;
-    private long rideEndTime;
-    private long rideTimeTaken;
-    private int billGenerated;
-	
-    public int getBillGenerated() {
+	private Payment payment;
+	private RideStateInterface rideState;
+	private DispatchStrategyInterface ds;
+	private long rideStartTime;
+	private long rideEndTime;
+	private long rideTimeTaken;
+	private int billGenerated;
+
+	public int getBillGenerated() {
 		return billGenerated;
 	}
 
@@ -53,64 +53,69 @@ public abstract class Dispatch {
 		this.rideTimeTaken = rideTimeTaken;
 	}
 
-	public Dispatch(){
-    	rideState = new WaitingState(this);
-    }
-	
+	public Dispatch() {
+		rideState = new WaitingState(this);
+	}
+
 	public Dispatch(Payment paymentType) {
 		this.payment = paymentType;
 	}
-	
-	public abstract int pay(int amount, HashMap<String, String> paymentModeDetails);
-	
+
+	public abstract int pay(int amount,
+			HashMap<String, String> paymentModeDetails);
+
 	public abstract long calculateAmount();
-	
-	protected int payByMode(int amount, HashMap<String, String> paymentModeDetails){
+
+	protected int payByMode(int amount,
+			HashMap<String, String> paymentModeDetails) {
 		int paymentStatusCode = payment.pay(amount, paymentModeDetails);
 		return paymentStatusCode;
-		
+
 	}
-		
-	public void notifyDriver(){
-		
+
+	public void notifyDriver() {
+
 	}
-	
-	public Driver searchDriver(Ride ride) throws SQLException{
+
+	public Driver searchDriver(Ride ride) throws SQLException {
 		ds = setStrategy(ride);
 		return ds.searchDriver(ride);
 	}
-	
-	public void notifyCustomer(){
-		
+
+	public void notifyCustomer() {
+
 	}
-	
-	public DispatchStrategyInterface setStrategy(Ride ride){
-		if(ride.getRidetype().equals("Taxi")){
+
+	public DispatchStrategyInterface setStrategy(Ride ride) {
+		if (ride.getRidetype().equals("Taxi")) {
 			ds = new TaxiDispatch();
-			
-		}else if(ride.getRidetype().equals("RideShare")){
+
+		} else if (ride.getRidetype().equals("RideShare")) {
 			ds = new RideShareDispatch();
 		}
 		return ds;
-		
+
 	}
-	
+
 	public RideStateInterface getRideState() {
 		return rideState;
 	}
+
 	public void setRideState(RideStateInterface rideState) {
 		this.rideState = rideState;
-	}	
-    
-	public void initiateRide(){
+	}
+
+	public void initiateRide() {
 		this.rideState.initiateRide();
 	}
-	public void RideInTransit(){
-		this.rideState.RideInTransit();
-		
+
+	public void RideInTransit(HashMap<String, String> rideDetails) {
+		this.rideState.RideInTransit(rideDetails);
+
 	}
-	public void ConcludeRide(){
-		this.rideState.concludeRide();		
+
+	public void ConcludeRide(HashMap<String, String> rideDetails) {
+		this.rideState.concludeRide(rideDetails);
 	}
 
 	public Request getRequest() {
@@ -127,8 +132,6 @@ public abstract class Dispatch {
 
 	public void setPayment(Payment payment) {
 		this.payment = payment;
-	}			
-		
-	}	
-	
+	}
 
+}

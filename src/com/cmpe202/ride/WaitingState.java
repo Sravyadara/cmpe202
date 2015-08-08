@@ -1,5 +1,7 @@
 package com.cmpe202.ride;
 
+import java.util.HashMap;
+
 import com.cmpe202.ride.EngagedState;
 import com.cmpe202.ride.Ride;
 
@@ -18,7 +20,7 @@ private Dispatch dispatchStateContext;
 	}
 
 	@Override
-	public int RideInTransit() {
+	public int RideInTransit(HashMap<String, String> rideDetails) {
 		// TODO Auto-generated method stub
 		System.out.println("Ride should be initiated first");
 		return 0;
@@ -26,7 +28,7 @@ private Dispatch dispatchStateContext;
 	}
 
 	@Override
-	public int concludeRide() {
+	public int concludeRide(HashMap<String, String> rideDetails) {
 		// TODO Auto-generated method stub
 		System.out.println("Ride should be initiated first");
 		return 0;

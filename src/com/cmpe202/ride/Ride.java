@@ -11,7 +11,6 @@ import java.util.Scanner;
 
 import com.cmpe202.member.Member;
 import com.cmpe202.payment.Cash;
-import com.cmpe202.payment.Coupons;
 import com.cmpe202.payment.CreditCard;
 import com.cmpe202.payment.DebitCard;
 import com.cmpe202.payment.Pass;
@@ -20,13 +19,13 @@ import com.cmpe202.payment.Payment;
 import com.cmpe202.request.ConnectionFactory;
 import com.cmpe202.request.DbUtil;
 
-public class Ride extends Dispatch { 
+public class Ride extends Dispatch {
 
-    private Connection rideconnection;
-    private Statement ridestatement;
-    
-    protected int rideid;
-    protected int requestid;
+	private Connection rideconnection;
+	private Statement ridestatement;
+
+	protected int rideid;
+	protected int requestid;
 	protected String ridetype;
 	protected String pickuplocation;
 	protected String dropofflocation;
@@ -35,16 +34,16 @@ public class Ride extends Dispatch {
 	protected String ridestate;
 	protected int noofseats;
 	protected String vehicletype;
-    
-    public Ride(Payment p) {
-    	super(p);
-    }
-    
-    public Ride() {
-    	super();
-    }
-    
-    public Connection getRideconnection() {
+
+	public Ride(Payment p) {
+		super(p);
+	}
+
+	public Ride() {
+		super();
+	}
+
+	public Connection getRideconnection() {
 		return rideconnection;
 	}
 
@@ -135,24 +134,24 @@ public class Ride extends Dispatch {
 	public String getVehicletype() {
 		return vehicletype;
 	}
-	
+
 	public void setVehicletype(String vehicletype) {
 		this.vehicletype = vehicletype;
 	}
-	
+
 	@Override
-	
-    public int pay(int amount, HashMap<String, String> paymentModeDetails) {
+	public int pay(int amount, HashMap<String, String> paymentModeDetails) {
 		int paymentStatusCode = payByMode(amount, paymentModeDetails);
 		return paymentStatusCode;
 	}
-    
+
 	@Override
 	public long calculateAmount() {
 		// get time from calcutateTime() method and calculate distance here.
-		// After that call pay method which is above this one by sending amount as argument to it.
+		// After that call pay method which is above this one by sending amount
+		// as argument to it.
 		// That pay internally calls payByCalls().
-		
+
 		return 0;
 	}
 
@@ -202,5 +201,5 @@ public class Ride extends Dispatch {
 		}
 
 	}
-	
+
 }

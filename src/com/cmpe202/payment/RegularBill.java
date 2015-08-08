@@ -2,7 +2,7 @@ package com.cmpe202.payment;
 
 import java.util.HashMap;
 
-public class RegularBill extends Payment{
+public class RegularBill extends Payment {
 
 	@Override
 	public int pay(int amount, HashMap<String, String> details) {
@@ -18,13 +18,13 @@ public class RegularBill extends Payment{
 
 	@Override
 	public void notifyUserAboutAdditionalCharges() {
-		
+
 		// TODO Auto-generated method stub
 		System.out.println("No additional charges applied");
 	}
-	public boolean IsPeakHour(){
+
+	public boolean IsPeakHour() {
 		return true;
 	}
-
 
 }
