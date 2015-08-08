@@ -49,7 +49,7 @@ public class DispatchDAO {
 	public int insertDispatch(int dispatch_rideid,
 			String dispatch_driver_emailid, int dispatch_vehicleid,
 			String dispatch_member_emailid) throws SQLException {
-		String query = "INSERT INTO Dispatch(dispatch_rideid,dispatch_driver_emailid,dispatch_vehicleid,dispatch_member_emailid) VALUES "
+		String query = "INSERT INTO dispatch(dispatch_rideid,dispatch_driver_emailid,dispatch_vehicleid,dispatch_member_emailid) VALUES "
 				+ "( "
 				+ dispatch_rideid
 				+ ",'"

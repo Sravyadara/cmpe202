@@ -12,7 +12,7 @@ public class MemberRules extends Rules{
 		if(isnotNullcheck(emailId,licenseNumber, member_role)){
 			
 			if(member_role.equalsIgnoreCase("Driver")){
-				if(isValidEmailAddress(emailId) && isValidEmailAddress(licenseNumber)){
+				if(isValidEmailAddress(emailId) && isValidLicenseNumber(licenseNumber)){
 					validationStatus = true;
 				}
 			}else if(member_role.equalsIgnoreCase("Customer")){
@@ -49,7 +49,8 @@ public class MemberRules extends Rules{
         
 	}
 	public boolean isValidLicenseNumber(String licenseNumber){
-		String ePattern = "[A-Z]\\d(\\d\\d-\\d\\d){3}";
+		//String ePattern = "[A-Z]\\d(\\d\\d-\\d\\d){3}";
+		String ePattern = "[A-Z](\\d){7}";
         java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
         java.util.regex.Matcher m = p.matcher(licenseNumber);
         return m.matches();

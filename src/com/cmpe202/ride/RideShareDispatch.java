@@ -40,7 +40,7 @@ public class RideShareDispatch implements DispatchStrategyInterface {
 		customerPoint.setY(y);
 
 		// get existing coordinates of all the drivers from the database
-		driverCoordinates = dispatchDAO.getAllDriversLocation("uber");
+		driverCoordinates = dispatchDAO.getAllDriversLocation(ride.getRidetype());
 
 		// calculate distance between two coordinates
 		for (Map.Entry<String, Point> entry : driverCoordinates.entrySet()) {

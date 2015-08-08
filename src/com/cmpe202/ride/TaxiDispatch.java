@@ -14,7 +14,7 @@ public class TaxiDispatch implements DispatchStrategyInterface {
 
 		// select driver whoose availability status is free and driver type is
 		// taxi
-		freeDrivers = dispatchDAO.getFreeDrivers("taxi");
+		freeDrivers = dispatchDAO.getFreeDrivers(ride.getRidetype());
 		Driver driver = freeDrivers.get(0);
 
 		// update or insert into dispatch table

@@ -90,7 +90,7 @@ public abstract class Dispatch {
 		if (ride.getRidetype().equals("Taxi")) {
 			ds = new TaxiDispatch();
 
-		} else if (ride.getRidetype().equals("RideShare")) {
+		} else if (ride.getRidetype().equals("Ride Share")) {
 			ds = new RideShareDispatch();
 		}
 		return ds;
