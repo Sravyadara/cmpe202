@@ -12,7 +12,7 @@ public class PaymentRules extends Rules{
 		long total;
 		boolean validationStatus = false;
 
-		total = sumOfEvenPlaces(Long.parseLong(cardNumber)) + sumOfOddPlaces(Long.parseLong(cardNumber));
+		total = sumOfDoubleEvenPlace(Long.parseLong(cardNumber)) + sumOfOddPlace(Long.parseLong(cardNumber));
 		if(isnotNullcheck(cardNumber)){
 			if(isValid(total)) {
 				validationStatus = true;
@@ -26,6 +26,9 @@ public class PaymentRules extends Rules{
 		this.expiryDate = expiryDate;
 	}
 
+	public PaymentRules() {
+		// TODO Auto-generated constructor stub
+	}
 	public boolean isnotNullcheck(String cardNumber){
 		if(cardNumber == null /*|| licenseNumber == null*/)
 			return false;
@@ -33,47 +36,49 @@ public class PaymentRules extends Rules{
 			return true;
 
 	}
-	public static boolean isValid(long total) {
+	public  boolean isValid(long total) {
 		if (total % 10 == 0) {
 			return true;
 		}
 		return false;
 	}
-	public static int sumOfEvenPlaces(long number) {
-		int sum = 0;
-		int remainder;
-		number %= 10;
-		while (number % 10 != 0 || number / 10 != 0) {
-			remainder = (int)(number % 10);
-			sum = sum + getDigit(remainder * 2);
-			number /= 100;
-		}
-		return sum;
+	public  int sumOfOddPlace(long number) {
+        int result = 0;
 
-	}
-	public static int getDigit(int number) {
-		if (number <= 9) {
-			return number;
-		} else if (number > 9)
-			return (number % 10 + number / 10);
+        while (number > 0) {
+            result += (int) (number % 10);
+            number = number / 100;
+        }
 
-		return number;
-	}
+        return result;
+    }
+	public  int getDigit(int number) {
 
-	public static int sumOfOddPlaces(long number) {
-		int sum = 0;
-		int remainder;
-		number /= 10;
-		while(number % 10 != 0 || number / 10 != 0) {
-			remainder = (int)(number % 10);
-			sum = sum + getDigit(remainder * 2);
-			number /= 100;
-		}
-		System.out.println(sum);
-		return sum;
-	}
+        if (number <= 9) {
+            return number;
+        } else {
+            int firstDigit = number % 10;
+            int secondDigit = (int) (number / 10);
 
-	public static int getSize(long number) {
+            return firstDigit + secondDigit;
+        }
+    }
+
+	public  int sumOfDoubleEvenPlace(long number) {
+
+        int result = 0;
+        long temp = 0;
+
+        while (number > 0) {
+            temp = number % 100;
+            result += getDigit((int) (temp / 10) * 2);
+            number = number / 100;
+        }
+
+        return result;
+    }
+
+	public  int getSize(long number) {
 		int len = 0;
 		while (number >= 10) {
 			number /= 10;

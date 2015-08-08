@@ -34,7 +34,7 @@ public abstract class Payment {
 	public void notifyCustomer() {
 		notifyDispatcher();
 		notification
-				.sendMessage("Payment accepted. Hope you enjoyed our service. Have a good one.");
+				.sendMessage("Notifying Customer --> Payment accepted. Thanks for using our service. \n \n Hope you enjoyed our service. Have a good one.");
 		;
 	}
 

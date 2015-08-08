@@ -103,7 +103,7 @@ public class DBQuery {
 		try {
 			statement = connection.createStatement();
 			String sql;
-			sql = "SELECT COUNT(*) FROM request WHERE request_state = 'processing'";
+			sql = "SELECT COUNT(*) FROM request WHERE request_state = 'Initiated'";
 			rs = statement.executeQuery(sql);
 			// get the number of rows from the result set
 			rs.next();

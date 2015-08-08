@@ -24,6 +24,8 @@ import com.cmpe202.request.DbUtil;
 import com.cmpe202.rules.CouponDecoratorRules;
 import com.cmpe202.rules.CouponRules;
 import com.cmpe202.rules.DecoratorRules;
+import com.cmpe202.rules.PaymentDecoratorRules;
+import com.cmpe202.rules.PaymentRules;
 import com.cmpe202.rules.Rules;
 
 public class ReleasedState implements RideStateInterface {
@@ -87,11 +89,13 @@ public class ReleasedState implements RideStateInterface {
 			}
 
 			try {
-				rideDAO.updateRideStatus(dispatchStateContext,
-						Integer.parseInt(rideDetails.get("requestId")));
+				/*rideDAO.updateRideStatus(dispatchStateContext,
+						Integer.parseInt(rideDetails.get("requestId")));*/
+				System.out.println("------------------------------------");
+				System.out.println("Printing calculateTotalTime value : " + calculateTotalTime());
 				rideDetails.put("rideDistance",
 						Integer.toString(calculateTotalTime()));
-				int rideAmount = calculateRideAmount(calculateAmount());
+				int rideAmount = calculateRideAmount(calculateAmount(rideDetails));
 				rideDetails.put("rideAmount", Integer.toString(rideAmount));
 
 				showPaymentOptions(rideDetails);
@@ -110,16 +114,23 @@ public class ReleasedState implements RideStateInterface {
 	public int calculateTotalTime() {
 
 		int totalTime = (int) (dispatchStateContext.getRideEndTime() - dispatchStateContext
-				.getRideEndTime());
+				.getRideStartTime());
 		dispatchStateContext.setRideTimeTaken(totalTime);
 		return totalTime;
 	}
 
-	public int calculateAmount() {
+	public int calculateAmount(HashMap<String, String> rideDetails) {
 
 		int amount = (int) (((dispatchStateContext.getRideTimeTaken() / 1000) / 60) % 60);
-		amount = amount * 2;
+		PaymentDecoratorRules pdr = new PaymentDecoratorRules(new PaymentRules());
+		if(rideDetails.get("requestType").equalsIgnoreCase("Ride Share")) {
+			amount = amount * pdr.getRidesharePrice();
+		}else {
+			amount = amount * pdr.getTaxiPrice();
+		}
+		//amount = amount * 2;
 		dispatchStateContext.setBillGenerated(amount);
+		System.out.println("Printing amount value in calculateAmount() : " +amount);
 		return amount;
 
 	}
@@ -168,12 +179,8 @@ public class ReleasedState implements RideStateInterface {
 		System.out.print("1. Pay Using Registered Card " + "\n"
 				+ "2. Use Another Credit Card" + "\n" + "3. Debit Card" + "\n"
 				+ "4. Paypal Account" + "\n" + "5. Pass" + "\n" + "6. Cash \n");
-		System.out.println("Choose menu item : ");
-		in = new Scanner(System.in);
-		String menuItemString = in.nextLine();
-		int menuItem = Integer.parseInt(menuItemString);
-		int paymentStatusCode, amountAfterDiscount;
-
+		
+		System.out.println("***********************************************************");
 		CouponDecoratorRules cdr = new CouponDecoratorRules(new CouponRules());
 		int seasonalDiscount = cdr.checkseasonalCoupons();
 		if (seasonalDiscount != 0) {
@@ -181,11 +188,19 @@ public class ReleasedState implements RideStateInterface {
 					+ seasonalDiscount
 					+ "% applies by default to your entire ride amount");
 		}
+		System.out.println("***********************************************************");
+		
+		System.out.println("\nChoose menu item : ");
+		in = new Scanner(System.in);
+		String menuItemString = in.nextLine();
+		int menuItem = Integer.parseInt(menuItemString);
+		int paymentStatusCode, amountAfterDiscount;
 
+		
 		switch (menuItem) {
 		case 1:
 			System.out.println("Paying using registered credit card..");
-			amountAfterDiscount = checkForCoupon(amount, seasonalDiscount);
+			amountAfterDiscount = (int) checkForCoupon(amount, seasonalDiscount);
 			p = new CreditCard();
 			d1 = new Ride(p);
 			// fetch details from DB and construct a hashmap.
@@ -193,12 +208,12 @@ public class ReleasedState implements RideStateInterface {
 			paymentStatusCode = d1.pay(amountAfterDiscount, paymentDetails);
 			checkPaymentStatusCode("credit card", paymentStatusCode, memberId,
 					driverId, requestId, amountAfterDiscount, rideDistance,
-					paymentDetails.get("cardNumber"));
+					paymentDetails.get("cardNumber"), rideDetails);
 			break;
 
 		case 2:
 			System.out.println("Paying using credit card..");
-			amountAfterDiscount = checkForCoupon(amount, seasonalDiscount);
+			amountAfterDiscount = (int)checkForCoupon(amount, seasonalDiscount);
 			System.out.println("Please enter credit card number : ");
 			creditOrDebitCommonCode();
 			p = new CreditCard();
@@ -206,13 +221,13 @@ public class ReleasedState implements RideStateInterface {
 			paymentStatusCode = d1.pay(amountAfterDiscount, paymentDetails);
 			checkPaymentStatusCode("credit card", paymentStatusCode, memberId,
 					driverId, requestId, amountAfterDiscount, rideDistance,
-					cardNumber);
+					cardNumber, rideDetails);
 
 			break;
 
 		case 3:
 			System.out.println("Paying using debit card..");
-			amountAfterDiscount = checkForCoupon(amount, seasonalDiscount);
+			amountAfterDiscount = (int)checkForCoupon(amount, seasonalDiscount);
 			System.out.println("Please enter debit card number : ");
 			creditOrDebitCommonCode();
 			p = new DebitCard();
@@ -220,13 +235,13 @@ public class ReleasedState implements RideStateInterface {
 			paymentStatusCode = d1.pay(amountAfterDiscount, paymentDetails);
 			checkPaymentStatusCode("debit card", paymentStatusCode, memberId,
 					driverId, requestId, amountAfterDiscount, rideDistance,
-					cardNumber);
+					cardNumber,rideDetails);
 
 			break;
 
 		case 4:
 			System.out.println("Paying using PayPal Account..");
-			amountAfterDiscount = checkForCoupon(amount, seasonalDiscount);
+			amountAfterDiscount = (int)checkForCoupon(amount, seasonalDiscount);
 			System.out.println("Redirecting to Paypal website ");
 			System.out.print("Enter paypal account id : ");
 			paypalAccountId = in.nextLine();
@@ -236,12 +251,12 @@ public class ReleasedState implements RideStateInterface {
 			paymentStatusCode = d1.pay(amountAfterDiscount, paymentDetails);
 			checkPaymentStatusCode("paypal", paymentStatusCode, memberId,
 					driverId, requestId, amountAfterDiscount, rideDistance,
-					paypalAccountId);
+					paypalAccountId,rideDetails);
 			break;
 
 		case 5:
 			System.out.println("Paying using existing Pass..");
-			amountAfterDiscount = checkForCoupon(amount, seasonalDiscount);
+			amountAfterDiscount = (int)checkForCoupon(amount, seasonalDiscount);
 			System.out.println("Please enter weekly/monthly pass id : ");
 			passId = in.nextLine();
 			paymentDetails.put("passId", passId);
@@ -251,7 +266,7 @@ public class ReleasedState implements RideStateInterface {
 			paymentStatusCode = d1.pay(amountAfterDiscount, paymentDetails);
 			checkPaymentStatusCode("pass", paymentStatusCode, memberId,
 					driverId, requestId, amountAfterDiscount, rideDistance,
-					passId);
+					passId, rideDetails);
 			break;
 
 		/*
@@ -263,23 +278,23 @@ public class ReleasedState implements RideStateInterface {
 
 		case 6:
 			System.out.println("Paying using Cash..");
-			amountAfterDiscount = checkForCoupon(amount, seasonalDiscount);
+			amountAfterDiscount = (int) checkForCoupon(amount, seasonalDiscount);
 			p = new Cash();
 			// payByCash(amount);
 			d1 = new Ride(p);
 			paymentStatusCode = d1.pay(amountAfterDiscount, paymentDetails);
 			checkPaymentStatusCode("cash", paymentStatusCode, memberId,
 					driverId, requestId, amountAfterDiscount, rideDistance,
-					"null");
+					"null", rideDetails);
 			break;
 
 		}
 
 	}
 
-	public int checkForCoupon(int amount, int sdiscount) throws SQLException {
+	public double checkForCoupon(int amount, int sdiscount) throws SQLException {
 		int discount = 0;
-		int finalAmount = 0;
+		double finalAmount = 0.0;
 		System.out.println("Do you have any valid coupon ? (y/n) :");
 		String customerResponse = in.nextLine();
 		System.out.println("Customer response : " + customerResponse);
@@ -291,7 +306,7 @@ public class ReleasedState implements RideStateInterface {
 				DispatchDAO dao = new DispatchDAO();
 				discount = Integer.parseInt(dao.getCoupon(couponNumber)
 						.getDiscount());
-				finalAmount = amount - ((discount / 100) * amount);
+				finalAmount = amount - ((discount / 100.0) * amount);
 				System.out.println("Successfully applied " + discount
 						+ "% coupon");
 
@@ -299,12 +314,15 @@ public class ReleasedState implements RideStateInterface {
 				finalAmount = amount;
 			}
 
-			if (sdiscount != 0) {
-
-				finalAmount = finalAmount - ((sdiscount / 100) * finalAmount);
-			}
+			
 		}
+		if (sdiscount != 0) {
 
+			finalAmount = finalAmount - ((sdiscount / 100.0) * finalAmount);
+			System.out.println("Successfully applied " + sdiscount
+					+ "% coupon");
+		}
+		
 		return finalAmount;
 	}
 
@@ -324,11 +342,12 @@ public class ReleasedState implements RideStateInterface {
 
 	public void checkPaymentStatusCode(String mode, int code, String memberId,
 			String driverId, int requestId, int amount, double distance,
-			String card) throws SQLException {
+			String card, HashMap<String,String> rideDetails) throws SQLException {
 		if (code == 1) {
 
 			// Update database and Call or present main menu
 			try {
+				insertTransactionRecord(memberId,amount,distance,mode,card,"success",driverId,requestId);
 				// insertTransactionRecord("ramyaky@gmail.com", 20, 30,
 				// "credit card", "48674896506", "success",
 				// "dummydriver@gmail.com", 12345);
@@ -337,9 +356,9 @@ public class ReleasedState implements RideStateInterface {
 				e.printStackTrace();
 			}
 
-		}/*
-		 * else if(code == 2 || code == 3) { showPaymentOptions(rideDetails); }
-		 */
+		}
+		 else if(code == 2 || code == 3) { showPaymentOptions(rideDetails); }
+		 
 	}
 
 	public void insertTransactionRecord(String memberId, int amount,

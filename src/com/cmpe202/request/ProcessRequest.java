@@ -8,6 +8,7 @@ import java.util.HashMap;
 
 import com.cmpe202.member.Member;
 import com.cmpe202.ride.Dispatch;
+import com.cmpe202.ride.DispatchDAO;
 import com.cmpe202.ride.Ride;
 import com.cmpe202.ride.RideDAO;
 import com.cmpe202.member.Driver;
@@ -67,22 +68,30 @@ public class ProcessRequest implements RequestStateInterface {
 	public String processRequest(String requestType) {
 		RideDAO ridedao = new RideDAO();
 		Ride ride;
+		DispatchDAO dispatchDAO = new DispatchDAO();
 		if (requestType.equalsIgnoreCase("ride")) {
 			try {
 				int rideid = getMaxRideId();
 
 				ride = ridedao.getRideDetails(rideid);
-				Member myMember = new Member();
+				//Member myMember = new Member();
+				DispatchDAO dispatchdao = new DispatchDAO();
 				Dispatch dispatch = new Ride();
 				Driver driver = dispatch.searchDriver(ride);
+				if(driver != null){
 				dispatch.initiateRide();
 				HashMap<String, String> rideDetails = new HashMap<String, String>();
-				rideDetails.put("requestId",
-						Integer.toString(ride.getRequestid()));
+				rideDetails.put("requestId",Integer.toString(ride.getRequestid()));
 				rideDetails.put("driverId", driver.getMemberid());
-				rideDetails.put("memberId", myMember.getMemberid());
+				rideDetails.put("memberId", dispatchdao.getCustomerByEmail(ride.getRequestid()));
+				rideDetails.put("requestType", ride.getRidetype());
 				dispatch.RideInTransit(rideDetails);
 				dispatch.ConcludeRide(rideDetails);
+				request.setRequestState(new ConcludeRequest(request));
+				dispatchDAO.updateDriverStatus("free", driver.getMemberid());
+				}else{
+					System.out.println("Sorry, we do not have any drivers available. Please try again after some time");
+				}
 				// request.setRequestState(new ConcludeRequest(request));
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -93,7 +102,7 @@ public class ProcessRequest implements RequestStateInterface {
 			request.setRequestState(new ConcludeRequest(request));
 			return "Request is Served";
 		}
-		System.out.println("                ");
+		/*System.out.println("                "); */
 		return "Request is in processing state";
 
 	}

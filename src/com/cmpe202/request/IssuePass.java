@@ -86,7 +86,7 @@ public class IssuePass {
 
 			System.out.println("Payment Processed using " + mode);
 			System.out.println("Payment Processed successfully");
-			System.out.println("Your pass will expire in 7 days..");
+			System.out.println("Your pass will expire in 30 days..");
 
 		}
 		case 0:

@@ -11,7 +11,6 @@ import com.cmpe202.ride.DispatchDAO;
 public class CouponRules extends Rules {
 
 	private String couponId;
-	private String expiry;
 
 	public boolean validate() {
 
@@ -44,11 +43,12 @@ public class CouponRules extends Rules {
 		Coupon coupon = dispatchDAO.getCoupon(couponId);
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		Date date1 = sdf.parse(expiry);
+		Date date1 = sdf.parse(coupon.getCouponExpiry());
 		Date date2 = new Date();
+		sdf.format(date2);
 
 		if (coupon != null) {
-			if (date1.before(date2)) {
+			if (date1.after(date2)) {
 				isvalid = true;
 			}
 		}

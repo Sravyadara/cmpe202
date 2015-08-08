@@ -16,6 +16,8 @@ public class TaxiDispatch implements DispatchStrategyInterface {
 		// taxi
 		freeDrivers = dispatchDAO.getFreeDrivers(ride.getRidetype());
 		Driver driver = freeDrivers.get(0);
+		
+		if(driver != null){
 
 		// update or insert into dispatch table
 		String member_emailId = dispatchDAO.getCustomerByEmail(ride
@@ -36,6 +38,9 @@ public class TaxiDispatch implements DispatchStrategyInterface {
 			}
 			// update vehicle and driver status
 			dispatchDAO.updateDriverStatus("assigned", driver.getMemberid());
+		}else{
+			System.out.println("Sorry, we do not have any taxi drivers available. Please try again after some time");
+		}
 
 		}
 		return driver;

@@ -42,6 +42,7 @@ public class RideShareDispatch implements DispatchStrategyInterface {
 		// get existing coordinates of all the drivers from the database
 		driverCoordinates = dispatchDAO.getAllDriversLocation(ride.getRidetype());
 
+		if(driverCoordinates.size() != 0){
 		// calculate distance between two coordinates
 		for (Map.Entry<String, Point> entry : driverCoordinates.entrySet()) {
 			distances
@@ -93,6 +94,10 @@ public class RideShareDispatch implements DispatchStrategyInterface {
 			}
 			// update vehicle and driver status
 			dispatchDAO.updateDriverStatus("assigned", driverId);
+		}else{
+			System.out.println("Sorry, we do not have any uber drivers available. Please try again after some time");
+		}
+		
 
 		}
 

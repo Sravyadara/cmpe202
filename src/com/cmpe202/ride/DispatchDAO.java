@@ -183,7 +183,7 @@ public class DispatchDAO {
 			if (rs.next()) {
 
 				coupon = new Coupon();
-				coupon.setCouponId(rs.getString("employee_emailid"));
+				coupon.setCouponId(rs.getString("couponid"));
 				coupon.setDiscount((rs.getString("discount")));
 				coupon.setCouponExpiry((rs.getString("couponexpiry")));
 				// member.setLicenseDetails(rs.getString("employee_emailid"));
