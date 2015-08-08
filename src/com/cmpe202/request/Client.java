@@ -3,8 +3,10 @@ package com.cmpe202.request;
 import java.sql.SQLException;
 import java.util.Scanner;
 
+import com.cmpe202.member.Executive;
 import com.cmpe202.member.Member;
 import com.cmpe202.member.MemberDAO;
+import com.cmpe202.member.MembersClient;
 import com.cmpe202.ride.Ride;
 import com.cmpe202.request.SignUpForm;
 
@@ -163,7 +165,7 @@ public class Client {
 
 	}
 
-	public static void callExecutiveMenu(String memberId) {
+	public static void callExecutiveMenu(String memberId) throws SQLException {
 		Scanner in = new Scanner(System.in);
 		int executivemenuselection;
 		System.out
@@ -176,6 +178,14 @@ public class Client {
 		System.out.println("2. My reportes");
 		System.out.print("Choose menu item: ");
 		executivemenuselection = in.nextInt();
+		MemberDAO memberDao = new MemberDAO();
+		Member member = memberDao.getMember(memberId);
+		
+		if(executivemenuselection == 2) {
+			Executive executive = new Executive(member.getMemberName());
+			MembersClient.m = executive;
+			MembersClient.doClientTasks();
+		}
 	}
 
 	static Request req;

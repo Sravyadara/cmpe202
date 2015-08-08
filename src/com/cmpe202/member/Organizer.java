@@ -11,7 +11,7 @@ import com.cmpe202.request.DbUtil;
 
 public abstract class Organizer extends Members {
 
-	public void stateName() throws SQLException {
+	public void displayName() throws SQLException {
 		
 		// fetch data from db and run for loop
 		//super.stateName();
@@ -29,7 +29,7 @@ public abstract class Organizer extends Members {
 					namesList.add(rs.getString("name"));
 				}
 			}else {
-				System.out.println("No reportess");
+				System.out.println("Sorry, you do not have any reportess");
 				
 			}
 			
@@ -40,7 +40,7 @@ public abstract class Organizer extends Members {
 		}
 		
 		if (namesList.size() > 0) {
-			System.out.println("Showing Reportes : \n");
+			System.out.println("\nBelow are your Reportes : ");
 			for (String n : namesList) {
 				System.out.println(n);
 			}

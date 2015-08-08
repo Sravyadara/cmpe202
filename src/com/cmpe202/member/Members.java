@@ -6,7 +6,7 @@ public abstract class Members {
 	String mname = "not assigned yet";
 	String mtitle = "not assigned yet";
 	
-	public void stateName() throws SQLException {
+	public void displayName() throws SQLException {
 		//System.out.println(title + " " + name);
 	}
 }

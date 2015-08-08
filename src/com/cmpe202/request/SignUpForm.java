@@ -91,10 +91,9 @@ public class SignUpForm {
 		else if (role.equalsIgnoreCase("c")) {
 			role = "executive";
 		}
-		Rules memberrules = new MemberRules(memberId, licenseno, role);
-		if (memberrules.validate()) {
+		/*Rules memberrules = new MemberRules(memberId, licenseno, role);
+		if (memberrules.validate()) { */
 			try {
-
 				DateFormat dateFormat = new SimpleDateFormat(
 						"yyyy-MM-dd HH:mm:ss");
 				// get current date time with Date()
@@ -157,9 +156,9 @@ public class SignUpForm {
 			System.out
 					.println("Registration is successful, Please use your MemberId and Password as login credentials ");
 			return memberId;
-		} else {
+		/*} else {
 			return "Error";
-		}
+		}*/
 	}
 
 	public int AddVehicle(String vehicleType, String vehicle_model,

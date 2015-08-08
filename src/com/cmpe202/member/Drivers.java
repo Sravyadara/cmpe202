@@ -13,7 +13,7 @@ public class Drivers extends Members{
 		mname = aName;
 	}
 
-	public void stateName() throws SQLException {
-		super.stateName();
+	public void displayName() throws SQLException {
+		super.displayName();
 	}
 }

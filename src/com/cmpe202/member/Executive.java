@@ -10,10 +10,10 @@ public class Executive extends Organizer {
 		mtitle = "Manager";
 	}
 
-	public void stateName() throws SQLException {
+	public void displayName() throws SQLException {
 		// do processing special to manager naming
 
-		super.stateName();
+		super.displayName();
 	}
 
 }
