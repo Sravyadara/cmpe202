@@ -3,9 +3,7 @@ package com.cmpe202.member;
 import java.util.Date;
 
 public class Member {
-	String name = "not assigned yet";
-	String title = "not assigned yet";
-
+	
 	protected String memberid;
 	protected String password;
 	protected String role;
@@ -16,10 +14,6 @@ public class Member {
 	protected String memberName;
 	protected String manager;
 	protected String cvv;
-
-	public void stateName() {
-		System.out.println(title + " " + name);
-	}
 
 	public String getCvv() {
 		return cvv;

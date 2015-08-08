@@ -1,24 +1,11 @@
 package com.cmpe202.member;
 
-public class Driver extends Employee {
+public class Driver extends Member {
 
 	private String driver_type;
 	private String driver_location;
 	private int vehicleId;
 	private String driverstatus;
-
-	public Driver() {
-		title = "Driver";
-	}
-
-	public Driver(String aName) {
-		this();
-		name = aName;
-	}
-
-	public void stateName() {
-		super.stateName();
-	}
 
 	public String getDriverstatus() {
 		return driverstatus;

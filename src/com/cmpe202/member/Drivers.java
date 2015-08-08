@@ -1,12 +1,12 @@
 package com.cmpe202.member;
 
-public class Customer extends Member {
+public class Drivers extends Members{
 
-	public Customer() {
-		title = "Customer";
+	public Drivers() {
+		title = "Driver";
 	}
 
-	public Customer(String aName) {
+	public Drivers(String aName) {
 		this();
 		name = aName;
 	}
@@ -14,5 +14,4 @@ public class Customer extends Member {
 	public void stateName() {
 		super.stateName();
 	}
-
 }

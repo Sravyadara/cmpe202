@@ -25,12 +25,7 @@ public class MemberDAO {
 			statement = connection.createStatement();
 			rs = statement.executeQuery(query);
 			if (rs.next()) {
-				if (rs.getString("role").equals("customer")) {
-					member = new Customer();
-				} else if (rs.getString("role").equals("driver")) {
-					member = new Driver();
-				}
-
+				member = new Member();
 				member.setMemberid(rs.getString("member_emailid"));
 				member.setPassword(rs.getString("password"));
 				member.setRole(rs.getString("role"));

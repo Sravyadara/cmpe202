@@ -63,8 +63,8 @@ public class SignUpForm {
 			System.out.println("1. Taxi");
 			System.out.println("2. Ride Share");
 			String drivetype;
-			int type = scanner.nextInt();
-			if (type == 2) {
+			String type = scanner.nextLine();
+			if (type.equals("2")) {
 				drivetype = "Ride Share";
 				String vehiclemodel, vehicletype;
 				int seats;
@@ -102,7 +102,7 @@ public class SignUpForm {
 				String reqdate = dateFormat.format(date).toString();
 				SignUpconnection = ConnectionFactory.getConnection();
 				Signstatement = SignUpconnection.createStatement();
-				String sql = "INSERT INTO MEMBER(member_emailid,role,manager,name,address,"
+				String sql = "INSERT INTO member(member_emailid,role,manager,name,address,"
 						+ "contactno,password,paymentcard,cvv,expirydate,Licenseno,ssn) VALUES "
 						+ "( " + "\""
 						+ memberId
@@ -212,7 +212,7 @@ public class SignUpForm {
 			throws SQLException {
 		String location = getlocation();
 		String driveravailability = "free";
-		String query = "INSERT INTO Driver(driver_emailid,driver_vehicleid,driverlocation,driverstatus,driver_type) VALUES "
+		String query = "INSERT INTO driver(driver_emailid,driver_vehicleid,driverlocation,driverstatus,driver_type) VALUES "
 				+ "( '"
 				+ driverId
 				+ "','"
@@ -234,7 +234,7 @@ public class SignUpForm {
 	}
 
 	public int AssignVehicletoDriver() throws SQLException {
-		String query = "SELECT vehicleid FROM vehicle where vehicleid NOT IN (SELECT vehicleid FROM driver)";
+		String query = "select vehicleid from vehicle where vehicleid NOT IN (SELECT driver_vehicleid FROM driver)";
 		ResultSet rs = null;
 		int status = 0;
 		int vehicleId = 0;

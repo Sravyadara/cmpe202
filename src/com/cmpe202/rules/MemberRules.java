@@ -11,11 +11,11 @@ public class MemberRules extends Rules{
 
 		if(isnotNullcheck(emailId,licenseNumber, member_role)){
 			
-			if(member_role.equals("Driver")){
+			if(member_role.equalsIgnoreCase("Driver")){
 				if(isValidEmailAddress(emailId) && isValidEmailAddress(licenseNumber)){
 					validationStatus = true;
 				}
-			}else if(member_role.equals("Driver")){
+			}else if(member_role.equalsIgnoreCase("Customer")){
 				if(isValidEmailAddress(emailId)){
 					validationStatus = true;
 				}
@@ -30,10 +30,10 @@ public class MemberRules extends Rules{
 	}
 	public boolean isnotNullcheck(String emailId, String licenseNumber, String member_role){
 		boolean return_status = true; 
-		if(member_role.equals("Driver")){
+		if(member_role.equalsIgnoreCase("Driver")){
 			if(emailId == null || licenseNumber == null)
 				return_status = false;
-		}else if(member_role.equals("Customer")){
+		}else if(member_role.equalsIgnoreCase("Customer")){
 			if(emailId == null)
 				return_status = false;
 		}

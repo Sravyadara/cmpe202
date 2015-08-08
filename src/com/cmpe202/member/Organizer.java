@@ -1,8 +1,6 @@
 package com.cmpe202.member;
 
-import java.util.Vector;
-
-public abstract class Organizer extends Member {
+public abstract class Organizer extends Members {
 
 	// protected Vector directReports = new Vector();
 
