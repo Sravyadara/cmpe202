@@ -1,17 +1,19 @@
 package com.cmpe202.member;
 
+import java.sql.SQLException;
+
 public class Drivers extends Members{
 
 	public Drivers() {
-		title = "Driver";
+		mtitle = "Driver";
 	}
 
 	public Drivers(String aName) {
 		this();
-		name = aName;
+		mname = aName;
 	}
 
-	public void stateName() {
+	public void stateName() throws SQLException {
 		super.stateName();
 	}
 }

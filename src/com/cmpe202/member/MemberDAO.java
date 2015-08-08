@@ -4,8 +4,10 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import com.cmpe202.request.ConnectionFactory;
 import com.cmpe202.request.DbUtil;
+import com.cmpe202.ride.Vehicle;
 import com.cmpe202.member.Member;
 
 public class MemberDAO {
@@ -122,5 +124,53 @@ public class MemberDAO {
 		}
 		return status;
 	}
+	
+	public int AddNewVehicle(Vehicle vehicle) throws SQLException{
+        String query = "INSERT INTO vehicle(noofseats,vehiclemodel,vehicletype,vehiclespecification) VALUES "
+                + "( "+vehicle.getNoOfSeats()+ ",'"+vehicle.getVehicle_model()+"','"+ vehicle.getVehicleType() + "','"+ vehicle.getVehicle_spec()+ "')";
+        int status = 0;
+        try {
+            connection = ConnectionFactory.getConnection();
+            statement = connection.createStatement();
+            status = statement.executeUpdate(query);
+            
+        } finally {
+            DbUtil.close(statement);
+            DbUtil.close(connection);
+        }
+        return status;
+    }
+    
+    //to be used for admin to update new vehcile in the inventory
+    public int UpdateVehicle(Vehicle vehicle) throws SQLException{
+        String query = " UPDATE vehicle SET noofseats="+vehicle.getNoOfSeats()+ ",vehiclemodel='" +vehicle.getVehicle_model()+ "',vehicletype='" +vehicle.getVehicleType()+"',vehiclespecification='" +vehicle.getVehicle_spec()+"' WHERE vehicleid="+vehicle.getVehicleId();
+        int status = 0;
+        try {
+            connection = ConnectionFactory.getConnection();
+            statement = connection.createStatement();
+            status = statement.executeUpdate(query);
+            
+        } finally {
+            DbUtil.close(statement);
+            DbUtil.close(connection);
+        }
+        return status;
+    }
+    
+    //to be used for admin to remove vehicle from inventory
+    public int removeVehicle(int vehicleId) throws SQLException{
+        String query = "DELETE FROM vehicle WHERE vehicleid="+vehicleId;
+        int status = 0;
+        try {
+            connection = ConnectionFactory.getConnection();
+            statement = connection.createStatement();
+            status = statement.executeUpdate(query);
+            
+        } finally {
+            DbUtil.close(statement);
+            DbUtil.close(connection);
+        }
+        return status;
+    }
 
 }

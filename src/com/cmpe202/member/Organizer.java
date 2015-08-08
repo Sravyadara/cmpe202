@@ -1,23 +1,52 @@
 package com.cmpe202.member;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+import com.cmpe202.request.ConnectionFactory;
+import com.cmpe202.request.DbUtil;
+
 public abstract class Organizer extends Members {
 
-	// protected Vector directReports = new Vector();
-
-	public void stateName() {
-
+	public void stateName() throws SQLException {
+		
 		// fetch data from db and run for loop
-		/*
-		 * super.stateName(); // print name of this employee first if(
-		 * directReports.size() > 0 ) // be sure there are elements for( int i =
-		 * 0; i < directReports.size(); ++i ) (
-		 * (Employee)directReports.elementAt( i ) ).stateName();
-		 */
+		//super.stateName();
+		Connection connection = null;
+		Statement statement = null;
+		String query = "SELECT name FROM member where manager=\"" + mname + "\"";
+		ResultSet rs = null;
+		ArrayList<String> namesList = new ArrayList<String>();
+		try {
+			connection = ConnectionFactory.getConnection();
+			statement = connection.createStatement();
+			rs = statement.executeQuery(query);
+			if (rs != null) {
+				while (rs.next()) {
+					namesList.add(rs.getString("name"));
+				}
+			}else {
+				System.out.println("No reportess");
+				
+			}
+			
+		} finally {
+			DbUtil.close(rs);
+			DbUtil.close(statement);
+			DbUtil.close(connection);
+		}
+		
+		if (namesList.size() > 0) {
+			System.out.println("Showing Reportes : \n");
+			for (String n : namesList) {
+				System.out.println(n);
+			}
+		}
+		
+		
 	}
 
-	// The following is not required as we are explicitly adding any member.
-	/*
-	 * public void add( Employee anEmployee ) { this.directReports.addElement(
-	 * anEmployee ); }
-	 */
 }

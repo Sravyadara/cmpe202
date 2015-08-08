@@ -1,17 +1,19 @@
 package com.cmpe202.member;
 
+import java.sql.SQLException;
+
 public class Customers extends Members {
 
 	public Customers() {
-		title = "Customer";
+		mtitle = "Customer";
 	}
 
 	public Customers(String aName) {
 		this();
-		name = aName;
+		mname = aName;
 	}
 
-	public void stateName() {
+	public void stateName() throws SQLException {
 		super.stateName();
 	}
 

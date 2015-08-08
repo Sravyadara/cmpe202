@@ -1,11 +1,13 @@
 package com.cmpe202.member;
 
+import java.sql.SQLException;
+
 public abstract class Members {
-	String name = "not assigned yet";
-	String title = "not assigned yet";
+	String mname = "not assigned yet";
+	String mtitle = "not assigned yet";
 	
-	public void stateName() {
-		System.out.println(title + " " + name);
+	public void stateName() throws SQLException {
+		//System.out.println(title + " " + name);
 	}
 }
 
