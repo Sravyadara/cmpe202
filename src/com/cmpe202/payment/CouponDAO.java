@@ -52,7 +52,7 @@ public class CouponDAO {
 
 	public int UpdateCoupon(Coupon coupon) throws SQLException {
 
-		String query = " UPDATE ride SET discount='" + coupon.getDiscount()
+		String query = " UPDATE coupon SET discount='" + coupon.getDiscount()
 				+ "',couponexpiry='" + coupon.getCouponExpiry()
 				+ "' WHERE couponid=" + coupon.getCouponId();
 

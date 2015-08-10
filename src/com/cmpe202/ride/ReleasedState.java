@@ -296,11 +296,12 @@ public class ReleasedState implements RideStateInterface {
 				discount = Integer.parseInt(dao.getCoupon(couponNumber)
 						.getDiscount());
 				finalAmount = amount - ((discount / 100.0) * amount);
-				System.out.println("Successfully applied " + discount
+				System.out.println("Successfully applied your" + discount
 						+ "% coupon");
 
 			} else {
 				finalAmount = amount;
+				System.out.println("Sorry, the coupon you have entered is Invalid or explired.");
 			}
 
 			
@@ -308,7 +309,7 @@ public class ReleasedState implements RideStateInterface {
 		if (sdiscount != 0) {
 
 			finalAmount = finalAmount - ((sdiscount / 100.0) * finalAmount);
-			System.out.println("Successfully applied " + sdiscount
+			System.out.println("Successfully applied seasonal " + sdiscount
 					+ "% coupon");
 		}
 		System.out.println("\nTotal amount charged : $" + finalAmount);

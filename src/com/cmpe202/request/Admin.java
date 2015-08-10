@@ -156,13 +156,14 @@ public class Admin {
 
 		} else if (executivemenuselection.equals("3")) {
 			System.out.println("Enter Coupon Id");
-			int couponId = in.nextInt();
+			String couponId = in.nextLine();
 			System.out.println("Enter Coupon Validity in YYYY-MM-DD format");
 			String expiry = in.nextLine();
 			System.out.println("Enter Discount Percentage");
 			String discount = in.nextLine();
 
 			Coupon updateCoupon = new Coupon();
+			updateCoupon.setCouponId(couponId);
 			updateCoupon.setCouponExpiry(expiry);
 			updateCoupon.setDiscount(discount);
 

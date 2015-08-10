@@ -112,7 +112,7 @@ public class Client {
 		System.out
 				.print("**********************************************************\n");
 		System.out.println("1. My Profile");
-		System.out.println("2. Vehicle details");
+		//System.out.println("2. Vehicle details");
 		System.out.print("Choose menu item: ");
 		drivermenuselection = in.nextInt();
 		getDriverDetails(memberId);
@@ -174,14 +174,14 @@ public class Client {
 				.print("                    Available Services                      \n");
 		System.out
 				.print("**********************************************************\n");
-		System.out.println("1. My Profile");
-		System.out.println("2. My reportes");
+		//System.out.println("1. My Profile");
+		System.out.println("1. My reportes");
 		System.out.print("Choose menu item: ");
 		executivemenuselection = in.nextInt();
 		MemberDAO memberDao = new MemberDAO();
 		Member member = memberDao.getMember(memberId);
 		
-		if(executivemenuselection == 2) {
+		if(executivemenuselection == 1) {
 			Executive executive = new Executive(member.getMemberName());
 			MembersClient.m = executive;
 			MembersClient.doClientTasks();
